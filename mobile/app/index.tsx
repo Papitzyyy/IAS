@@ -7,12 +7,13 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Image,
   KeyboardAvoidingView,
+  Modal,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { login } from "../src/api/auth";
@@ -30,7 +31,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     // Check if user is already logged in
-    getToken().then((token: string | null) => {
+    getToken().then((token) => {
       if (token) {
         router.replace("/(tabs)/scanner");
       } else {
@@ -79,11 +80,9 @@ export default function LoginScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Image 
-            source={require("../assets/logo.png")} 
-            style={styles.logo} 
-            resizeMode="contain"
-          />
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>CRCY</Text>
+          </View>
           <Text style={styles.title}>Scan and Help</Text>
           <Text style={styles.subtitle}>EVSU Ormoc Campus — Responder App</Text>
         </View>
@@ -140,64 +139,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: colors.primary,
     padding: spacing.lg,
+    justifyContent: "center",
   },
   header: {
     alignItems: "center",
-    marginTop: spacing.xl * 2,
     marginBottom: spacing.xl,
   },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: spacing.md,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "800",
-    color: colors.white,
-    marginBottom: spacing.xs,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: "rgba(255,255,255,0.65)",
-    textAlign: "center",
-  },
-  card: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: colors.textPrimary,
-    marginBottom: spacing.xs,
-  },
-  cardSub: {
-    fontSize: 13,
-    color: colors.textSecondary,
-    marginBottom: spacing.lg,
-  },
-  errorBox: {
-    backgroundColor: "#fef2f2",
-    borderLeftWidth: 4,
-    borderLeftColor: colors.danger,
-    borderRadius: 6,
-    padding: spacing.sm + 2,
-    marginBottom: spacing.md,
-  },
-  errorText: {
-    color: colors.danger,
-    fontSize: 13,
-  },
-  footer: {
-    textAlign: "center",
-    fontSize: 12,
-    color: "rgba(255,255,255,0.45)",
-    lineHeight: 18,
-  },
-});
+  badge: {
+    backgroundColor: colors.primaryLight,
+    paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
     borderRadius: 20,
     marginBottom: spacing.sm,

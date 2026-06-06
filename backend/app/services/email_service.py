@@ -48,7 +48,7 @@ def _send(to: str, subject: str, html_body: str) -> None:
     from email.mime.multipart import MIMEMultipart
     
     smtp_host = "smtp-relay.brevo.com"
-    smtp_port = 2525  # Reverting to 2525 as 587 is blocked/not working
+    smtp_port = 2525  # Render allows 2525
     
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject

@@ -11,22 +11,13 @@ import * as SecureStore from "expo-secure-store";
 // ── Storage Keys ─────────────────────────────────────────────────────────────
 export const TOKEN_KEY = "access_token";
 export const ROLE_KEY = "user_role";
-export const SERVER_KEY = "backend_server";
 
-// ── Default server address ──────────────────
+// ── Default server address (used when nothing is saved yet) ──────────────────
 const API_BASE = "https://ias-fw7q.onrender.com/api/v1";
 
 /** Build the full API base URL from the stored server IP */
 async function getApiBase(): Promise<string> {
   return API_BASE;
-}
-
-export async function saveServer(server: string): Promise<void> {
-  // No-op - we are hardcoding the server now
-}
-
-export async function getServer(): Promise<string | null> {
-  return SecureStore.getItemAsync(SERVER_KEY);
 }
 
 // ── Token helpers ────────────────────────────────────────────────────────────
