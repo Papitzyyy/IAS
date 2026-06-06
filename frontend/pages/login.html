@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CRCY Scan and Help — Login</title>
+  <link rel="stylesheet" href="../assets/css/app.css?v=2" />
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef2f9;
+      padding: 24px;
+    }
+
+    .login-wrap {
+      display: flex;
+      width: 100%;
+      max-width: 860px;
+      min-height: 520px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Left panel */
+    .login-left {
+      flex: 1;
+      background: linear-gradient(160deg, #7f1d1d 0%, #450a0a 100%);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-left::before {
+      content: '';
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      top: -80px;
+      right: -80px;
+    }
+
+    .login-left::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      bottom: 40px;
+      left: -60px;
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-brand-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--brand-accent);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-brand-icon svg {
+      width: 22px;
+      height: 22px;
+      color: #fff;
+    }
+
+    .login-brand-text .name {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .login-brand-text .sub {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .login-hero {
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-hero h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .login-hero p {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+    }
+
+    .login-features {
+      list-style: none;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .login-features li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .login-features li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      flex-shrink: 0;
+    }
+
+    .login-footer-note {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.25);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Right panel */
+    .login-right {
+      width: 380px;
+      background: #fff;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Step progress */
+    .login-steps {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+
+    .login-step-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .login-step-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .login-step-dot.done {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .login-step-dot.active {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 0 4px rgba(26, 86, 219, 0.15);
+    }
+
+    .login-step-dot.pending {
+      background: #e8ecf0;
+      color: var(--text-muted);
+    }
+
+    .login-step-line {
+      flex: 1;
+      height: 2px;
+      margin-top: 12px;
+      background: #e8ecf0;
+      transition: background 0.3s;
+    }
+
+    .login-step-line.done {
+      background: var(--green);
+    }
+
+    .login-step-label {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .login-right h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .login-right .sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font-size: 0.85rem;
+      outline: none;
+      color: var(--text-primary);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: var(--font);
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .input-wrap input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .toggle-pw {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+    }
+
+    .toggle-pw:hover {
+      color: var(--text-secondary);
+    }
+
+    .toggle-pw svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .otp-input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 2rem;
+      font-family: "Courier New", monospace;
+      font-weight: 700;
+      letter-spacing: 0.5em;
+      text-align: center;
+      outline: none;
+      color: var(--text-primary);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .otp-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .otp-timer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .otp-timer svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .otp-timer.expiring {
+      color: var(--amber);
+    }
+
+    .otp-timer.expired {
+      color: var(--red);
+    }
+
+    .otp-email {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.5;
+      background: var(--bg);
+      border-radius: var(--radius-xs);
+      padding: 10px 14px;
+    }
+
+    .otp-email strong {
+      color: var(--text-primary);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 14px;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font);
+    }
+
+    .submit-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-back {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 8px;
+      margin-top: 6px;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-back svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .btn-back:hover {
+      background: var(--bg);
+      color: var(--text-secondary);
+    }
+
+    .error-box {
+      display: none;
+      background: var(--red-light);
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      color: var(--red);
+      font-size: 0.78rem;
+      margin-top: 10px;
+      gap: 6px;
+      align-items: flex-start;
+    }
+
+    .error-box.show {
+      display: flex;
+    }
+
+    .error-box.info {
+      background: #fef2f2;
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
+
+    .error-box svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .error-box.info strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.8rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .login-left {
+        display: none;
+      }
+
+      .login-right {
+        width: 100%;
+        border-radius: 20px;
+      }
+
+      .login-wrap {
+        max-width: 400px;
+      }
+
+      body {
+        background: #f0f4f8;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-wrap" role="main">
+
+    <!-- Left branding panel -->
+    <div class="login-left" aria-hidden="true">
+      <div class="login-brand">
+        <div class="login-brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <div class="login-brand-text">
+          <div class="name">CRCY Scan &amp; Help</div>
+          <div class="sub">EVSU Ormoc Campus</div>
+        </div>
+      </div>
+
+      <div class="login-hero">
+        <h2>Student Medical<br>Tag System</h2>
+        <p>Admin portal for encoding student medical tags and managing CRCY responder access.</p>
+        <ul class="login-features">
+          <li>HMAC-signed QR medical tags</li>
+          <li>Role-based access control</li>
+          <li>Immutable audit logging</li>
+          <li>RA 10173 compliant</li>
+        </ul>
+      </div>
+
+      <div class="login-footer-note">Eastern Visayas State University &mdash; Ormoc Campus</div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="login-right">
+
+      <!-- Step progress indicator -->
+      <div class="login-steps" role="list" aria-label="Login steps">
+        <div class="login-step-col" role="listitem">
+          <div class="login-step-dot active" id="step-dot-1" aria-label="Step 1: Credentials">1</div>
+          <span class="login-step-label">Credentials</span>
+        </div>
+        <div class="login-step-line" id="step-line-1"></div>
+        <div class="login-step-col" role="listitem">
+          <div class="login-step-dot pending" id="step-dot-2" aria-label="Step 2: Authorize">2</div>
+          <span class="login-step-label">Authorize</span>
+        </div>
+        <div class="login-step-line" id="step-line-2"></div>
+        <div class="login-step-col" role="listitem">
+          <div class="login-step-dot pending" id="step-dot-3" aria-label="Step 3: Verify OTP">3</div>
+          <span class="login-step-label">Verify OTP</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Credentials -->
+      <div class="step active" id="step-credentials" role="form" aria-label="Sign in form">
+        <h3>Sign in</h3>
+        <p class="sub">Use your EVSU institutional account</p>
+
+        <div class="field">
+          <label for="input-email">Email address</label>
+          <div class="input-wrap">
+            <input type="email" id="input-email" placeholder="your@email.com" autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="input-password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="input-password" placeholder="Password" autocomplete="current-password"
+              style="padding-right:2.5rem;" />
+            <button type="button" class="toggle-pw" id="toggle-pw" title="Toggle password visibility"
+              aria-label="Toggle password visibility">
+              <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:-6px; margin-bottom:12px;">
+          <a href="#" onclick="showForgotStep(event)"
+            style="font-size:0.75rem; color:var(--blue); font-weight:600; text-decoration:none;">Forgot password?</a>
+        </div>
+
+        <div class="error-box" id="error-login" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span id="error-login-text"></span>
+        </div>
+
+        <button type="button" class="submit-btn" id="btn-login" onclick="doLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+          Continue
+        </button>
+
+        <div style="text-align:center; margin-top:16px; font-size:0.75rem; color:var(--text-muted);">
+          By using this service, you understood and agree to the <a href="#" onclick="openTermsModal(event)"
+            style="color:var(--blue); text-decoration:none; font-weight:600;">Terms and conditions</a>
+        </div>
+      </div>
+
+      <!-- Step 2: Authorize -->
+      <div class="step" id="step-auth" role="form" aria-label="Authorization waiting form">
+        <h3>Verify it's you</h3>
+        <p class="sub">Check your email to authorize login</p>
+        <p class="otp-email">We sent a secure link to<br><strong id="auth-email-hint"></strong></p>
+        
+        <div style="text-align:center; margin: 32px 0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;animation:pulse 2s infinite">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <p style="margin-top:16px; font-weight:600; color:var(--text-main);">Waiting for confirmation...</p>
+          <p style="font-size:0.875rem; color:var(--text-muted);">Please click the link in your email.</p>
+        </div>
+
+        <p id="resend-auth-feedback" style="text-align:center; font-size:0.8rem; margin-bottom:8px; color:var(--text-muted); min-height:1.2em;"></p>
+
+        <button type="button" class="submit-btn" id="btn-resend-auth" onclick="resendAuthEmail()" style="margin-bottom:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Resend Email
+        </button>
+
+        <button type="button" class="btn-back" onclick="goBackToLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back to Sign In
+        </button>
+      </div>
+
+      <!-- Step 3: OTP -->
+      <div class="step" id="step-otp" role="form" aria-label="OTP verification form">
+        <h3>Verify your identity</h3>
+        <p class="sub">Enter the 6-digit code we sent</p>
+
+        <p class="otp-email">Code sent to<br><strong id="otp-email-hint"></strong></p>
+
+        <input type="text" class="otp-input" id="input-otp" maxlength="6" placeholder="000000" inputmode="numeric"
+          pattern="[0-9]*" autocomplete="one-time-code" aria-label="6-digit OTP code" />
+
+        <div class="otp-timer" id="otp-timer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span id="otp-timer-text">Expires in 15:00</span>
+        </div>
+
+        <div class="error-box" id="error-otp" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span id="error-otp-text"></span>
+        </div>
+
+        <button type="button" class="submit-btn" id="btn-otp" onclick="doVerifyOtp()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Verify Code
+        </button>
+        <button type="button" class="btn-back" onclick="goBack()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back
+        </button>
+      </div>
+
+      <!-- Step 3: Forgot Password (Email request) -->
+      <div class="step" id="step-forgot" role="form" aria-label="Forgot password form">
+        <h3>Forgot password?</h3>
+        <p class="sub">Enter your registered email to receive a reset code</p>
+
+        <div class="field">
+          <label for="forgot-email">Email address</label>
+          <div class="input-wrap">
+            <input type="email" id="forgot-email" placeholder="your@email.com" />
+          </div>
+        </div>
+
+        <div class="error-box" id="error-forgot" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span id="error-forgot-text"></span>
+        </div>
+
+        <button type="button" class="submit-btn" id="btn-forgot" onclick="doForgotPassword()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+          Send Reset Code
+        </button>
+        <button type="button" class="btn-back" onclick="goBackToLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back to Sign In
+        </button>
+      </div>
+
+      <!-- Step 4: Reset Password (OTP & New Password) -->
+      <div class="step" id="step-reset-new" role="form" aria-label="Reset password form">
+        <h3>Reset password</h3>
+        <p class="sub">Verify your code and set a new password</p>
+
+        <div class="field">
+          <label for="reset-otp">6-Digit Code</label>
+          <div class="input-wrap">
+            <input type="text" id="reset-otp" placeholder="000000" maxlength="6"
+              style="text-align:center; font-family:'Courier New', monospace; font-weight:700; letter-spacing:0.1em;" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reset-password">New Password</label>
+          <div class="input-wrap">
+            <input type="password" id="reset-password" placeholder="Minimum 12 characters"
+              style="padding-right:2.5rem;" />
+            <button type="button" class="toggle-pw" id="toggle-reset-pw" title="Toggle password visibility"
+              aria-label="Toggle password visibility">
+              <svg id="eye-icon-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reset-confirm">Confirm New Password</label>
+          <div class="input-wrap">
+            <input type="password" id="reset-confirm" placeholder="Repeat new password" />
+          </div>
+        </div>
+
+        <div class="error-box" id="error-reset" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span id="error-reset-text"></span>
+        </div>
+
+        <button type="button" class="submit-btn" id="btn-reset" onclick="doResetPassword()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Reset Password
+        </button>
+        <button type="button" class="btn-back" onclick="goBackToLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back to Sign In
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+
+  <script src="../assets/js/shared/toast.js"></script>
+  <script>
+    var API = "/api/v1";
+    var pendingEmail = "";
+    var pendingPassword = "";
+    var otpTimerInterval = null;
+    var otpSecondsLeft = 0;
+    var pollInterval = null;
+    var attemptId = null;
+
+    // Check for email verification success/failure
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("verified") === "1") {
+      setTimeout(() => {
+        showToast("Email successfully verified. You can now log in.", "success");
+      }, 500);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get("verified") === "0") {
+      setTimeout(() => {
+        showToast("Invalid or expired verification link.", "error");
+      }, 500);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Password toggle
+    document.getElementById("toggle-pw").addEventListener("click", function () {
+      var inp = document.getElementById("input-password");
+      inp.type = inp.type === "password" ? "text" : "password";
+      var icon = document.getElementById("eye-icon");
+      if (inp.type === "text") {
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    });
+
+    function setStep(step) {
+      document.getElementById("step-credentials").className = "step" + (step === 1 ? " active" : "");
+      document.getElementById("step-auth").className = "step" + (step === 2 ? " active" : "");
+      document.getElementById("step-otp").className = "step" + (step === 3 ? " active" : "");
+      var dot1 = document.getElementById("step-dot-1");
+      var dot2 = document.getElementById("step-dot-2");
+      var dot3 = document.getElementById("step-dot-3");
+      var line1 = document.getElementById("step-line-1");
+      var line2 = document.getElementById("step-line-2");
+      
+      if (step === 1) {
+        dot1.className = "login-step-dot active"; dot1.innerHTML = "1";
+        dot2.className = "login-step-dot pending"; dot2.innerHTML = "2";
+        if(dot3) { dot3.className = "login-step-dot pending"; dot3.innerHTML = "3"; }
+        if(line1) line1.className = "login-step-line";
+        if(line2) line2.className = "login-step-line";
+      } else if (step === 2) {
+        dot1.className = "login-step-dot done";
+        dot1.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="20 6 9 17 4 12"/></svg>';
+        dot2.className = "login-step-dot active"; dot2.innerHTML = "2";
+        if(dot3) { dot3.className = "login-step-dot pending"; dot3.innerHTML = "3"; }
+        if(line1) line1.className = "login-step-line done";
+        if(line2) line2.className = "login-step-line";
+      } else if (step === 3) {
+        dot1.className = "login-step-dot done";
+        dot2.className = "login-step-dot done";
+        dot2.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="20 6 9 17 4 12"/></svg>';
+        if(dot3) { dot3.className = "login-step-dot active"; dot3.innerHTML = "3"; }
+        if(line1) line1.className = "login-step-line done";
+        if(line2) line2.className = "login-step-line done";
+      }
+    }
+    
+    function startPollingStatus() {
+        clearInterval(pollInterval);
+        pollInterval = setInterval(function() {
+            fetch(API + "/auth/login-status/" + attemptId)
+            .then(res => res.json())
+            .then(data => {
+                if (data.is_authorized) {
+                    clearInterval(pollInterval);
+                    document.getElementById("otp-email-hint").textContent = pendingEmail;
+                    setStep(3);
+                    startOtpTimer(60);
+                    setTimeout(function () { document.getElementById("input-otp").focus(); }, 150);
+                }
+            })
+            .catch(e => console.error(e));
+        }, 3000);
+    }
+
+    function resendAuthEmail() {
+      var btn = document.getElementById("btn-resend-auth");
+      var feedback = document.getElementById("resend-auth-feedback");
+      if (!pendingEmail) return;
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;animation:spin 0.7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Sending…';
+      feedback.textContent = '';
+      fetch(API + "/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: pendingEmail, password: pendingPassword, source: "web" })
+      }).then(function(res) {
+        return res.json().then(function(d) { return { ok: res.ok, data: d }; });
+      }).then(function(r) {
+        if (r.ok) {
+          clearInterval(pollInterval);
+          attemptId = r.data.attempt_id;
+          feedback.style.color = 'var(--green, #16a34a)';
+          feedback.textContent = 'A new link has been sent to your email.';
+          startPollingStatus();
+        } else {
+          feedback.style.color = 'var(--red, #dc2626)';
+          feedback.textContent = 'Could not resend. Please go back and try again.';
+        }
+      }).catch(function() {
+        feedback.style.color = 'var(--red, #dc2626)';
+        feedback.textContent = 'Failed to resend. Check your connection.';
+      }).finally(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Resend Email';
+      });
+    }
+
+    function startOtpTimer(seconds) {
+      clearInterval(otpTimerInterval);
+      otpSecondsLeft = seconds;
+      var timerEl = document.getElementById("otp-timer");
+      var textEl = document.getElementById("otp-timer-text");
+      function tick() {
+        if (otpSecondsLeft <= 0) {
+          clearInterval(otpTimerInterval);
+          timerEl.className = "otp-timer expired";
+          textEl.textContent = "Code expired — go back and try again";
+          document.getElementById("btn-otp").disabled = true;
+          return;
+        }
+        var m = Math.floor(otpSecondsLeft / 60);
+        var s = otpSecondsLeft % 60;
+        textEl.textContent = "Expires in " + m + ":" + (s < 10 ? "0" : "") + s;
+        timerEl.className = "otp-timer" + (otpSecondsLeft <= 60 ? " expiring" : "");
+        otpSecondsLeft--;
+      }
+      tick();
+      otpTimerInterval = setInterval(tick, 1000);
+    }
+
+    function showErr(id, textId, msg) {
+      document.getElementById(textId).textContent = msg;
+      document.getElementById(id).classList.add("show");
+    }
+    function hideErr(id) { document.getElementById(id).classList.remove("show"); }
+
+    function doLogin() {
+      var email = document.getElementById("input-email").value.trim();
+      var password = document.getElementById("input-password").value;
+      var btn = document.getElementById("btn-login");
+      hideErr("error-login");
+      if (!email || !password) {
+        showErr("error-login", "error-login-text", "Please enter your email and password.");
+        return;
+      }
+      if (!email) {
+        showErr("error-login", "error-login-text", "Please enter your email and password.");
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;animation:spin 0.7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Sending email…';
+      fetch(API + "/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, password: password, source: "web" })
+      })
+        .then(function (res) {
+          if (res.ok) {
+            res.json().then(function(d) {
+                pendingEmail = email;
+                pendingPassword = password;
+                attemptId = d.attempt_id;
+                document.getElementById("auth-email-hint").textContent = email;
+                setStep(2);
+                startPollingStatus();
+            });
+          } else {
+            res.json().then(function (d) {
+              var detail = d.detail || "";
+              var errBox = document.getElementById("error-login");
+              if (res.status === 403) {
+                // Role-restricted login (responders blocked from web, admin/staff blocked from mobile)
+                errBox.classList.remove("info");
+                errBox.querySelector("svg").style.display = "";
+                showErr("error-login", "error-login-text", detail || "Access denied.");
+              } else {
+                errBox.classList.remove("info");
+                errBox.querySelector("svg").style.display = "";
+                showErr("error-login", "error-login-text", detail || "Invalid email or password.");
+              }
+            }).catch(function () {
+              showErr("error-login", "error-login-text", "Login failed. Please try again.");
+            });
+          }
+        })
+        .catch(function () {
+          showErr("error-login", "error-login-text", "Cannot reach server. Make sure the backend is running.");
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Continue';
+        });
+    }
+
+    function doVerifyOtp() {
+      var otp = document.getElementById("input-otp").value.trim();
+      var btn = document.getElementById("btn-otp");
+      hideErr("error-otp");
+      if (!otp || otp.length < 6) {
+        showErr("error-otp", "error-otp-text", "Enter the 6-digit code.");
+        return;
+      }
+      // Guard against double-fire (autofill, Enter + auto-submit race)
+      if (btn.disabled) return;
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;animation:spin 0.7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Verifying\u2026';
+      fetch(API + "/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: pendingEmail, otp: otp })
+      })
+        .then(function (res) {
+          return res.json().then(function (d) { return { ok: res.ok, data: d }; });
+        })
+        .then(function (r) {
+          if (!r.ok) {
+            showErr("error-otp", "error-otp-text", r.data.detail || "Invalid or expired code.");
+            return;
+          }
+          clearInterval(otpTimerInterval);
+          localStorage.setItem("access_token", r.data.access_token);
+          localStorage.setItem("role", r.data.role);
+          // Responders are mobile-only — they have no web dashboard access
+          if (r.data.role === "responder") {
+            showErr("error-otp", "error-otp-text", "Responder accounts are not permitted to access the web portal. Please use the mobile app.");
+            localStorage.clear();
+            return;
+          }
+          window.location.href = "dashboard.html?welcome=1";
+        })
+        .catch(function (err) {
+          showErr("error-otp", "error-otp-text", "Network error. Please check your connection and try again.");
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg> Verify Code';
+        });
+    }
+
+    function goBack() {
+      clearInterval(otpTimerInterval);
+      // Go back to the authorization waiting step (step 2), not all the way to credentials
+      document.getElementById("step-otp").className = "step";
+      document.getElementById("step-auth").className = "step active";
+      document.getElementById("input-otp").value = "";
+      hideErr("error-otp");
+      document.getElementById("btn-otp").disabled = false;
+      document.getElementById("otp-timer").className = "otp-timer";
+      // Re-start polling in case user goes back
+      if (attemptId) startPollingStatus();
+    }
+
+    document.getElementById("input-password").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doLogin();
+    });
+    document.getElementById("input-otp").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doVerifyOtp();
+    });
+    document.getElementById("input-otp").addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "").slice(0, 6);
+      if (this.value.length === 6) {
+        var self = this;
+        // Small delay so the value is fully settled before submitting
+        setTimeout(function () {
+          if (self.value.length === 6) doVerifyOtp();
+        }, 80);
+      }
+    });
+
+    // Forgot Password Flow
+    var resetPendingEmail = "";
+
+    function showForgotStep(e) {
+      if (e) e.preventDefault();
+      hideErr("error-login");
+      hideErr("error-forgot");
+      var typedEmail = document.getElementById("input-email").value.trim();
+      if (typedEmail) {
+        document.getElementById("forgot-email").value = typedEmail;
+      }
+      document.getElementById("step-credentials").className = "step";
+      document.getElementById("step-auth").className = "step";
+      document.getElementById("step-otp").className = "step";
+      document.getElementById("step-forgot").className = "step active";
+      document.getElementById("step-reset-new").className = "step";
+
+      var d1 = document.getElementById("step-dot-1");
+      var d2 = document.getElementById("step-dot-2");
+      var d3 = document.getElementById("step-dot-3");
+      var l1 = document.getElementById("step-line-1");
+      var l2 = document.getElementById("step-line-2");
+      if (d1) { d1.className = "login-step-dot active"; d1.textContent = "F"; }
+      if (d2) { d2.className = "login-step-dot pending"; d2.textContent = "R"; }
+      if (d3) { d3.className = "login-step-dot pending"; d3.textContent = "3"; }
+      if (l1) l1.className = "login-step-line";
+      if (l2) l2.className = "login-step-line";
+    }
+
+    function goBackToLogin() {
+      // Clear MFA state
+      clearInterval(pollInterval);
+      clearInterval(otpTimerInterval);
+      pollInterval = null;
+      attemptId = null;
+      pendingEmail = "";
+      pendingPassword = "";
+      // Clear resend feedback
+      var fb = document.getElementById("resend-auth-feedback");
+      if (fb) fb.textContent = "";
+      var resendBtn = document.getElementById("btn-resend-auth");
+      if (resendBtn) resendBtn.disabled = false;
+      // Clear form fields
+      hideErr("error-forgot");
+      hideErr("error-reset");
+      document.getElementById("input-otp").value = "";
+      document.getElementById("btn-otp").disabled = false;
+      document.getElementById("otp-timer").className = "otp-timer";
+      // Show credentials step
+      document.getElementById("step-credentials").className = "step active";
+      document.getElementById("step-auth").className = "step";
+      document.getElementById("step-otp").className = "step";
+      document.getElementById("step-forgot").className = "step";
+      document.getElementById("step-reset-new").className = "step";
+      // Reset step dots
+      var d1 = document.getElementById("step-dot-1");
+      var d2 = document.getElementById("step-dot-2");
+      var d3 = document.getElementById("step-dot-3");
+      var l1 = document.getElementById("step-line-1");
+      var l2 = document.getElementById("step-line-2");
+      if (d1) { d1.className = "login-step-dot active"; d1.textContent = "1"; }
+      if (d2) { d2.className = "login-step-dot pending"; d2.textContent = "2"; }
+      if (d3) { d3.className = "login-step-dot pending"; d3.textContent = "3"; }
+      if (l1) l1.className = "login-step-line";
+      if (l2) l2.className = "login-step-line";
+    }
+
+    function doForgotPassword() {
+      var email = document.getElementById("forgot-email").value.trim();
+      var btn = document.getElementById("btn-forgot");
+      hideErr("error-forgot");
+      if (!email) {
+        showErr("error-forgot", "error-forgot-text", "Please enter your email address.");
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;animation:spin 0.7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Requesting code\u2026';
+
+      fetch(API + "/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email })
+      })
+        .then(function (res) {
+          if (res.ok) {
+            resetPendingEmail = email;
+            document.getElementById("reset-otp").value = "";
+            document.getElementById("reset-password").value = "";
+            document.getElementById("reset-confirm").value = "";
+
+            document.getElementById("step-forgot").className = "step";
+            document.getElementById("step-reset-new").className = "step active";
+
+            var dot1 = document.getElementById("step-dot-1");
+            dot1.className = "login-step-dot done";
+            dot1.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="20 6 9 17 4 12"/></svg>';
+
+            var dot2 = document.getElementById("step-dot-2");
+            dot2.className = "login-step-dot active";
+            dot2.textContent = "R";
+            document.getElementById("step-line-1").className = "login-step-line done";
+
+            if (typeof showToast === "function") {
+              showToast("A reset code has been sent to your email.", "success");
+            }
+          } else {
+            res.json().then(function (d) {
+              showErr("error-forgot", "error-forgot-text", d.detail || "Email is not registered.");
+            }).catch(function () {
+              showErr("error-forgot", "error-forgot-text", "An error occurred. Please try again.");
+            });
+          }
+        })
+        .catch(function () {
+          showErr("error-forgot", "error-forgot-text", "Cannot reach server. Make sure the backend is running.");
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Reset Code';
+        });
+    }
+
+    function doResetPassword() {
+      var otp = document.getElementById("reset-otp").value.trim();
+      var password = document.getElementById("reset-password").value;
+      var confirm = document.getElementById("reset-confirm").value;
+      var btn = document.getElementById("btn-reset");
+      hideErr("error-reset");
+
+      if (!otp || otp.length < 6) {
+        showErr("error-reset", "error-reset-text", "Please enter the 6-digit code.");
+        return;
+      }
+      if (!password || !confirm) {
+        showErr("error-reset", "error-reset-text", "Please fill in all fields.");
+        return;
+      }
+      if (password !== confirm) {
+        showErr("error-reset", "error-reset-text", "Passwords do not match.");
+        return;
+      }
+
+      if (password.length < 12) {
+        showErr("error-reset", "error-reset-text", "Password must be at least 12 characters.");
+        return;
+      }
+      if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
+        showErr("error-reset", "error-reset-text", "Password must contain uppercase, lowercase, and numeric characters.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;animation:spin 0.7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Resetting\u2026';
+
+      fetch(API + "/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: resetPendingEmail,
+          otp: otp,
+          new_password: password,
+          confirm_password: confirm
+        })
+      })
+        .then(function (res) {
+          if (res.ok) {
+            goBackToLogin();
+            document.getElementById("input-password").value = "";
+            if (typeof showToast === "function") {
+              showToast("Password reset successfully. You can now log in.", "success");
+            } else {
+              alert("Password reset successfully! You can now log in.");
+            }
+          } else {
+            res.json().then(function (d) {
+              showErr("error-reset", "error-reset-text", d.detail || "Invalid code or password requirements not met.");
+            }).catch(function () {
+              showErr("error-reset", "error-reset-text", "An error occurred. Please try again.");
+            });
+          }
+        })
+        .catch(function () {
+          showErr("error-reset", "error-reset-text", "Cannot reach server. Make sure the backend is running.");
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Reset Password';
+        });
+    }
+
+    // Toggle reset password visibility
+    document.getElementById("toggle-reset-pw").addEventListener("click", function () {
+      var inp = document.getElementById("reset-password");
+      inp.type = inp.type === "password" ? "text" : "password";
+      var icon = document.getElementById("eye-icon-reset");
+      if (inp.type === "text") {
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    });
+
+    document.getElementById("forgot-email").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doForgotPassword();
+    });
+    document.getElementById("reset-otp").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doResetPassword();
+    });
+    document.getElementById("reset-password").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doResetPassword();
+    });
+    document.getElementById("reset-confirm").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doResetPassword();
+    });
+
+    (function () {
+      var token = localStorage.getItem("access_token");
+      var role = localStorage.getItem("role");
+      var p = new URLSearchParams(window.location.search);
+
+      // Auto-redirect if already logged in (and not a responder)
+      if (token && role && role !== "responder" && p.get("logged_out") !== "1") {
+        window.location.href = "dashboard.html";
+        return;
+      }
+
+      if (p.get("logged_out") === "1" && typeof showToast === "function") {
+        showToast("You have been logged out.", "info");
+        window.history.replaceState({}, "", "login.html");
+      }
+      if (p.get("error") === "responder_web_blocked") {
+        showErr("error-login", "error-login-text", "Responder accounts are not permitted to access the web portal. Please use the mobile app.");
+        window.history.replaceState({}, "", "login.html");
+      }
+    })();
+  </script>
+
+  <!-- Terms and Conditions Modal -->
+  <div class="modal-overlay" id="terms-modal" onclick="if(event.target.id === 'terms-modal') closeTermsModal()">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3>Online Services Terms of Use and Privacy Statement</h3>
+          <p>Last Updated: June 2026</p>
+        </div>
+        <button class="modal-close" onclick="closeTermsModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 24px 30px; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-bottom: 8px;">Terms and Conditions</h4>
+        <p style="margin-bottom: 16px;">Please read these terms and conditions carefully before using Our Service. These Terms apply to the CRCY Scan and Help: EVSU Student Medical Tag System.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Interpretation and Definitions</h4>
+        <h5 style="color: var(--text-primary); font-weight: 600; margin-bottom: 6px;">Interpretation</h5>
+        <p style="margin-bottom: 12px;">The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
+        <h5 style="color: var(--text-primary); font-weight: 600; margin-bottom: 6px;">Definitions</h5>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li style="margin-bottom: 6px;"><strong>System</strong> refers to the CRCY Scan and Help Secure Information System consisting of a web dashboard and a secure Android application.</li>
+          <li style="margin-bottom: 6px;"><strong>Clinic Admins</strong> means authorized staff of the EVSU clinic who possess write/update access to student files, auditor logs, and staff configurations.</li>
+          <li style="margin-bottom: 6px;"><strong>CRCY Responders</strong> means authorized College Red Cross Youth student responders with read-only scanner capabilities via the mobile application.</li>
+          <li style="margin-bottom: 6px;"><strong>Students (Data Subjects)</strong> refers to the opt-in data owners who submit a medical consent form at the EVSU clinic.</li>
+          <li style="margin-bottom: 6px;"><strong>QR Tag</strong> refers to the physical print-ready tag containing a signed UUID token, securely linked to a student's medical directives.</li>
+        </ul>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Acknowledgement</h4>
+        <p style="margin-bottom: 16px;">These are the Terms and Conditions governing the use of this System and the agreement that operates between You and the EVSU Ormoc Campus Clinic. These Terms set out the rights and obligations of all users (Admins, Responders, and Students) regarding the use of the System.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Description of Services</h4>
+        <p style="margin-bottom: 16px;">The purpose of this System is to demonstrate core principles of Information Assurance and Security, including data protection, authentication, access control, and secure system integration. It serves the EVSU Ormoc Campus by providing CRCY student responders with instant, secure access to student-approved medical directives via tokenized QR codes during campus medical emergencies.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Limitation of Use</h4>
+        <p style="margin-bottom: 8px;">The System is subject to the following limitations:</p>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li style="margin-bottom: 6px;"><strong>Hardware Dependency:</strong> Responders must have a functioning, charged smartphone to run the scanner.</li>
+          <li style="margin-bottom: 6px;"><strong>Connectivity Required:</strong> The application requires active EVSU intranet/internet connectivity to query the API and load the student profile.</li>
+          <li style="margin-bottom: 6px;"><strong>Physical Tag Dependency:</strong> Students must have their physical QR tag on their person during an emergency.</li>
+          <li style="margin-bottom: 6px;"><strong>Admin-Mediated Data:</strong> Students cannot update profiles directly. All data updates are entered by clinic admins based on physical consent forms.</li>
+        </ul>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Prohibited Use of the Services</h4>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li style="margin-bottom: 6px;">Attempt unauthorized access to administrative API endpoints or mobile scanner views outside your Role-Based Access Control (RBAC) permissions.</li>
+          <li style="margin-bottom: 6px;">Create spoofed or manually altered QR codes to deceive the cryptographic verification systems (HMAC-SHA256).</li>
+          <li style="margin-bottom: 6px;">Execute brute-force login attacks against the Multi-Factor Authentication (MFA) mechanisms.</li>
+          <li style="margin-bottom: 6px;">Extract or copy raw medical text maliciously without a signed responder session.</li>
+        </ul>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Use of Services</h4>
+        <p style="margin-bottom: 16px;">By using the System, you agree to comply with all security implementations. Active responder sessions are strictly monitored and expire after 30 days to facilitate continuous availability. Clinic admins hold a remote kill switch to immediately deactivate any responder and invalidate their active session tokens in the event of a lost device or unauthorized access.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Privacy Policy</h4>
+        <p style="margin-bottom: 16px;">The System adheres strictly to the right-to-erasure and notification principles of RA 10173 (Data Privacy Act of 2012). Students must opt-in by submitting a physical medical consent form. Upon registration, students receive an automated email summarizing their encoded profile and providing a one-click tag deactivation link. All data in transit is protected over secure TLS/HTTPS configurations, and sensitive credentials at rest are strongly hashed utilizing bcrypt and SHA-256.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Intellectual property</h4>
+        <p style="margin-bottom: 16px;">The System and its original content, security features (including cryptographic tokenization methods and API designs), and functionality are and will remain the exclusive property of the EVSU Ormoc Campus and its authorized developers. The System is protected by copyright and other intellectual property laws.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">User accounts</h4>
+        <p style="margin-bottom: 16px;">When you are provisioned an account as an Admin or Responder, you must use your registered EVSU institutional email address. You are responsible for safeguarding your credentials and the 6-digit numeric One-Time Passwords (OTP) sent to your email. You must not share your account or access with any third party.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Applicable law</h4>
+        <p style="margin-bottom: 16px;">The laws of the Republic of the Philippines, excluding its conflicts of law rules, shall govern these Terms and Your use of the Service. Your use of the Application may also be subject to local university policies.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Indemnification</h4>
+        <p style="margin-bottom: 16px;">You agree to defend, indemnify and hold harmless the EVSU Ormoc Campus Clinic, its officers, directors, employees, and agents, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses arising from your improper use of the System or violation of these Terms.</p>
+
+        <h4 style="color: var(--text-primary); font-size: 1.05rem; font-weight: 700; margin-top: 20px; margin-bottom: 8px;">Limitation on liability</h4>
+        <p style="margin-bottom: 16px;">Notwithstanding any damages that You might incur, the entire liability of the creators of this System and any of its suppliers under any provision of this Terms and Your exclusive remedy for all of the foregoing shall be limited to the maximum extent permitted by applicable law. The System provides medical directive guidance but does not replace professional medical judgment.</p>
+      </div>
+      <div class="modal-footer" style="background:#fafbfc; padding:16px 26px; border-top:1px solid var(--border); display:flex; justify-content:flex-end;">
+        <button type="button" class="btn btn-ghost" onclick="closeTermsModal()" style="border:1.5px solid var(--border); background:transparent; border-radius:9px; padding:9px 18px; font-weight:600; cursor:pointer; color:var(--text-secondary);">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openTermsModal(e) {
+      if (e) e.preventDefault();
+      document.getElementById('terms-modal').classList.add('open');
+    }
+    function closeTermsModal() {
+      document.getElementById('terms-modal').classList.remove('open');
+    }
+  </script>
+</body>
+
+
+</html>

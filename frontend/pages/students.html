@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CRCY Scan and Help — Students</title>
+  <link rel="stylesheet" href="../assets/css/app.css?v=2" />
+  <style>
+    /* ── Modal overlay ── */
+    #modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,23,42,0.6);
+      z-index: 500;
+      align-items: flex-start; justify-content: center;
+      padding: 20px 16px; overflow-y: auto;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    #modal-overlay.open { display: flex; }
+
+    /* ── Modal card ── */
+    .student-modal-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 860px;
+      margin: auto;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      animation: modalIn 0.22s ease;
+    }
+
+    /* ── Modal header ── */
+    .student-modal-header {
+      background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);
+      color: #fff;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .student-modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .student-modal-icon {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .student-modal-icon svg { width: 22px; height: 22px; }
+    .student-modal-header-text .eyebrow {
+      font-size: 0.62rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 2px;
+    }
+    .student-modal-header-text h3 {
+      font-size: 1.05rem; font-weight: 800;
+      color: #fff; margin: 0;
+    }
+
+    /* ── Tab nav inside modal ── */
+    .modal-tab-nav {
+      display: flex;
+      gap: 0;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      overflow-x: auto;
+    }
+    .modal-tab-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 13px 18px;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--text-muted);
+      background: none; border: none;
+      border-bottom: 2.5px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      font-family: var(--font);
+      margin-bottom: -1px;
+    }
+    .modal-tab-btn svg { width: 14px; height: 14px; }
+    .modal-tab-btn:hover { color: var(--brand); }
+    .modal-tab-btn.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+      background: #fff;
+    }
+
+    /* ── Tab panels ── */
+    .modal-tab-panel { display: none; }
+    .modal-tab-panel.active { display: block; }
+
+    /* ── Scrollable body ── */
+    .student-modal-body {
+      padding: 24px 28px;
+      overflow-y: auto;
+      max-height: calc(100vh - 260px);
+    }
+
+    /* ── Two-column grid ── */
+    .modal-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .modal-3col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .modal-1col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .modal-col-span2 { grid-column: span 2; }
+
+    /* ── Section label ── */
+    .modal-section-label {
+      font-size: 0.65rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--brand);
+      display: flex; align-items: center; gap: 8px;
+      margin: 20px 0 14px;
+    }
+    .modal-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blue-light);
+    }
+    .modal-section-label:first-child { margin-top: 0; }
+
+    /* ── Form inputs ── */
+    .mf-input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 13px;
+      font-size: 0.82rem;
+      outline: none;
+      color: var(--text-primary);
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: var(--font);
+    }
+    .mf-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+    }
+    .mf-input::placeholder { color: var(--text-faint); }
+    .mf-input[readonly] { background: #f8fafc; color: var(--text-muted); cursor: default; }
+    .mf-input.invalid { border-color: var(--red); box-shadow: 0 0 0 3px rgba(220,38,38,0.08); }
+
+    /* ── Field wrapper ── */
+    .mf-field { display: flex; flex-direction: column; }
+    .mf-label {
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .mf-label .req { color: var(--red); }
+    .mf-label .hint { font-weight: 400; color: var(--text-muted); font-size: 0.68rem; }
+    .mf-hint  { font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; }
+    .mf-error { font-size: 0.68rem; color: var(--red); margin-top: 4px; display: none; }
+    .mf-error.show { display: block; }
+
+    /* ── Medical condition card ── */
+    .med-card {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .med-card.active {
+      background: #fef2f2;
+      border-color: #fca5a5;
+    }
+    .med-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .med-card-label {
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--text-primary);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .med-card-label svg { width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0; }
+    .med-card-yn {
+      display: flex; gap: 6px; flex-shrink: 0; position: relative;
+    }
+    .yn-pill {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid var(--border);
+      background: #fff; color: var(--text-muted);
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .yn-pill:hover { border-color: var(--brand); color: var(--brand); }
+    .yn-pill.yes-active { background: #fee2e2; border-color: #fca5a5; color: #b91c1c; }
+    .yn-pill.no-active  { background: #dcfce7; border-color: #86efac; color: #15803d; }
+    .med-card-detail {
+      margin-top: 12px;
+      display: none;
+    }
+    .med-card-detail.show { display: block; }
+
+    /* ── COVID grid ── */
+    .covid-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    /* ── Modal footer ── */
+    .student-modal-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #fafbfc;
+    }
+    .student-modal-footer-right {
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .modal-2col, .modal-3col { grid-template-columns: 1fr; }
+      .modal-col-span2 { grid-column: span 1; }
+      .student-modal-card { max-width: 100%; border-radius: 16px; }
+      .student-modal-body { max-height: calc(100vh - 220px); }
+      .covid-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-content">
+    <div class="page-body">
+
+      <div class="page-header page-header-row">
+        <div>
+          <h1>Student Profiles</h1>
+          <p>EVSU Ormoc Campus &mdash; Consent-based medical tag data</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-new-semester" type="button" class="btn btn-ghost" style="display:none;" onclick="startNewSemester()" title="Start new semester enrollment cycle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            New Semester
+          </button>
+          <button id="btn-toggle-archived" type="button" class="btn btn-ghost" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+            Show Archived
+          </button>
+          <button id="btn-add" class="btn btn-primary" aria-label="Add new student">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Student
+          </button>
+        </div>
+      </div>
+
+      <!-- Search + Course filter toolbar -->
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+        <div class="search-bar" style="flex:1;min-width:200px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="student-search" placeholder="Search by name, student number, or email…" />
+        </div>
+        <select id="course-filter" style="border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:9px 13px;font-size:0.82rem;font-family:var(--font);color:var(--text-primary);background:#fff;outline:none;cursor:pointer;min-width:180px;transition:border-color 0.15s,box-shadow 0.15s;" aria-label="Filter by course">
+          <option value="">All Courses</option>
+        </select>
+        <div id="student-count" style="font-size:0.75rem;color:var(--text-muted);white-space:nowrap;"></div>
+      </div>
+
+      <div id="table-container">
+        <div class="table-wrap">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <p>Loading students…</p>
+          </div>
+        </div>
+      </div>
+      <div id="student-pagination" class="pagination" style="margin-top:14px;" aria-label="Student list pagination"></div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADD / EDIT MODAL ===== -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="student-modal-card">
+
+    <!-- Header -->
+    <div class="student-modal-header">
+      <div class="student-modal-header-left">
+        <div class="student-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="student-modal-header-text">
+          <div class="eyebrow">EVSU Ormoc Campus Clinic</div>
+          <h3 id="modal-title">New Clinic Record</h3>
+        </div>
+      </div>
+      <button onclick="closeModal()" class="modal-close" title="Close" aria-label="Close modal">&times;</button>
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="modal-tab-nav" role="tablist">
+      <button class="modal-tab-btn active" id="tab-personal" role="tab" aria-selected="true" aria-controls="panel-personal" onclick="switchModalTab('personal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Personal Info
+      </button>
+      <button class="modal-tab-btn" id="tab-guardian" role="tab" aria-selected="false" aria-controls="panel-guardian" onclick="switchModalTab('guardian')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Guardian
+      </button>
+      <button class="modal-tab-btn" id="tab-medical" role="tab" aria-selected="false" aria-controls="panel-medical" onclick="switchModalTab('medical')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Medical History
+      </button>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="student-modal-body">
+
+      <!-- ── TAB 1: Personal Info ── -->
+      <div class="modal-tab-panel active" id="panel-personal" role="tabpanel" aria-labelledby="tab-personal">
+
+        <div class="modal-section-label">Identification</div>
+        <div class="modal-2col">
+          <div class="mf-field">
+            <label class="mf-label" for="f-sn">Student Number <span class="req">*</span></label>
+            <input type="text" id="f-sn" class="mf-input" placeholder="e.g. 2021-00001" pattern="\d{4}-\d{5}" oninput="this.value = this.value.replace(/[^\d-]/g, '').slice(0, 10);" title="Format: YYYY-NNNNN" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-program">Program <span class="req">*</span></label>
+            <select id="f-program" class="mf-input"></select>
+          </div>
+        </div>
+
+        <div class="modal-section-label">Full Name</div>
+        <div class="modal-2col">
+          <div class="mf-field">
+            <label class="mf-label" for="f-last">Last Name <span class="req">*</span></label>
+            <input type="text" id="f-last" class="mf-input" placeholder="Dela Cruz" oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-first">First Name <span class="req">*</span></label>
+            <input type="text" id="f-first" class="mf-input" placeholder="Juan" oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-middle">Middle Name <span class="hint">(leave blank if none)</span></label>
+            <input type="text" id="f-middle" class="mf-input" placeholder="Santos" oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-suffix">Suffix <span class="hint">(Jr., Sr., III…)</span></label>
+            <input type="text" id="f-suffix" class="mf-input" placeholder="Jr." oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+        </div>
+
+        <div class="modal-section-label">Personal Details</div>
+        <div class="modal-4col" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+          <div class="mf-field">
+            <label class="mf-label" for="f-birthdate">Birthdate <span class="req">*</span></label>
+            <input type="date" id="f-birthdate" class="mf-input" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-age">Age</label>
+            <input type="number" id="f-age" class="mf-input" placeholder="—" min="1" max="99" readonly />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-gender">Gender</label>
+            <select id="f-gender" class="mf-input">
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-pob">Place of Birth</label>
+            <div id="pob-address-container"></div>
+            <input type="text" id="f-pob" class="mf-input" style="display:none;" />
+          </div>
+        </div>
+        <div class="modal-1col">
+          <div class="mf-field">
+            <label class="mf-label" for="f-address">Home Address</label>
+            <div id="home-address-container"></div>
+            <input type="text" id="f-address" class="mf-input" style="display:none;" />
+          </div>
+        </div>
+        <div class="modal-2col">
+          <div class="mf-field">
+            <label class="mf-label" for="f-contact">Contact Number <span class="hint">(PH mobile)</span></label>
+            <input type="tel" id="f-contact" class="mf-input" placeholder="09XXXXXXXXX" maxlength="11" pattern="09[0-9]{9}" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 11);" />
+            <p class="mf-hint">Format: 09XXXXXXXXX</p>
+            <p class="mf-error" id="err-contact">Must be a valid PH mobile number (09XXXXXXXXX).</p>
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-email">EVSU Email <span class="req">*</span></label>
+            <input type="email" id="f-email" class="mf-input" placeholder="name@evsu.edu.ph" />
+            <p class="mf-hint">Must end with @evsu.edu.ph</p>
+            <p class="mf-error" id="err-email">Must be a valid @evsu.edu.ph address.</p>
+          </div>
+        </div>
+
+      </div><!-- /panel-personal -->
+
+      <!-- ── TAB 2: Guardian ── -->
+      <div class="modal-tab-panel" id="panel-guardian" role="tabpanel" aria-labelledby="tab-guardian">
+
+        <div class="modal-section-label">Parent / Guardian Information</div>
+        <div class="modal-3col" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px;">
+          <div class="mf-field">
+            <label class="mf-label" for="f-gfirst">First Name</label>
+            <input type="text" id="f-gfirst" class="mf-input" placeholder="Maria" oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-gmiddle">Middle Name</label>
+            <input type="text" id="f-gmiddle" class="mf-input" placeholder="" oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+          <div class="mf-field">
+            <label class="mf-label" for="f-glast">Last Name</label>
+            <input type="text" id="f-glast" class="mf-input" placeholder="Dela Cruz" oninput="this.value = this.value.replace(/[^A-Za-zñÑ \-\.]/g, '');" />
+          </div>
+        </div>
+        <div class="modal-2col">
+          <div class="mf-field">
+            <label class="mf-label" for="f-gcontact">Guardian Contact <span class="hint">(PH mobile)</span></label>
+            <input type="tel" id="f-gcontact" class="mf-input" placeholder="09XXXXXXXXX" maxlength="11" pattern="09[0-9]{9}" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 11);" />
+            <p class="mf-error" id="err-gcontact">Must be a valid PH mobile number (09XXXXXXXXX).</p>
+          </div>
+        </div>
+        <div class="modal-1col">
+          <div class="mf-field">
+            <label class="mf-label" for="f-gaddress">Guardian Address</label>
+            <div id="guardian-address-container"></div>
+            <input type="text" id="f-gaddress" class="mf-input" style="display:none;" />
+          </div>
+        </div>
+
+      </div><!-- /panel-guardian -->
+
+      <!-- ── TAB 3: Medical History ── -->
+      <div class="modal-tab-panel" id="panel-medical" role="tabpanel" aria-labelledby="tab-medical">
+
+        <div class="modal-section-label">Vital Information</div>
+        <div class="modal-2col" style="margin-bottom:20px;">
+          <div class="mf-field">
+            <label class="mf-label" for="f-blood">Blood Type</label>
+            <select id="f-blood" class="mf-input">
+              <option value="">— Select —</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-section-label">Conditions &amp; Allergies</div>
+
+        <!-- Hypertension -->
+        <div class="med-card" id="card-hypertension">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Hypertension / High Blood Pressure
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="hypertension" id="hyp-no" value="false" checked class="sr-only" onchange="toggleMedCard('hypertension-med','card-hypertension',false)" />
+              <label for="hyp-no" class="yn-pill no-active" id="pill-hyp-no">No</label>
+              <input type="radio" name="hypertension" id="hyp-yes" value="true" class="sr-only" onchange="toggleMedCard('hypertension-med','card-hypertension',true)" />
+              <label for="hyp-yes" class="yn-pill" id="pill-hyp-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="hypertension-med">
+            <div class="mf-field">
+              <label class="mf-label" for="f-hmed">Medication / Maintenance <span class="req">*</span></label>
+              <input type="text" id="f-hmed" class="mf-input" placeholder="e.g. Amlodipine 5mg" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Disease -->
+        <div class="med-card" id="card-health-disease">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Health Diseases / Illness
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="health_disease" id="hd-no" value="false" checked class="sr-only" onchange="toggleMedCard('disease-diag','card-health-disease',false)" />
+              <label for="hd-no" class="yn-pill no-active" id="pill-hd-no">No</label>
+              <input type="radio" name="health_disease" id="hd-yes" value="true" class="sr-only" onchange="toggleMedCard('disease-diag','card-health-disease',true)" />
+              <label for="hd-yes" class="yn-pill" id="pill-hd-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="disease-diag">
+            <div class="mf-field">
+              <label class="mf-label" for="f-diag">Diagnosis / Condition <span class="req">*</span></label>
+              <input type="text" id="f-diag" class="mf-input" placeholder="e.g. Asthma, Epilepsy" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Food Allergy -->
+        <div class="med-card" id="card-food-allergy">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              Food Allergies
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="food_allergy" id="fa-no" value="false" checked class="sr-only" onchange="toggleMedCard('food-specify','card-food-allergy',false)" />
+              <label for="fa-no" class="yn-pill no-active" id="pill-fa-no">No</label>
+              <input type="radio" name="food_allergy" id="fa-yes" value="true" class="sr-only" onchange="toggleMedCard('food-specify','card-food-allergy',true)" />
+              <label for="fa-yes" class="yn-pill" id="pill-fa-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="food-specify">
+            <div class="mf-field">
+              <label class="mf-label" for="f-food">Specify Allergens <span class="req">*</span></label>
+              <input type="text" id="f-food" class="mf-input" placeholder="e.g. Shellfish, Peanuts, Eggs" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Drug Allergy -->
+        <div class="med-card" id="card-drug-allergy">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.5 20H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2v3"/><circle cx="18" cy="18" r="3"/><path d="m22 22-1.5-1.5"/></svg>
+              Medicine / Drug Allergies
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="drug_allergy" id="da-no" value="false" checked class="sr-only" onchange="toggleMedCard('drug-specify','card-drug-allergy',false)" />
+              <label for="da-no" class="yn-pill no-active" id="pill-da-no">No</label>
+              <input type="radio" name="drug_allergy" id="da-yes" value="true" class="sr-only" onchange="toggleMedCard('drug-specify','card-drug-allergy',true)" />
+              <label for="da-yes" class="yn-pill" id="pill-da-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="drug-specify">
+            <div class="mf-field">
+              <label class="mf-label" for="f-drug">Specify Medicines <span class="req">*</span></label>
+              <input type="text" id="f-drug" class="mf-input" placeholder="e.g. Penicillin, Aspirin, Ibuprofen" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Diabetes -->
+        <div class="med-card" id="card-diabetes">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5"/><path d="M8 19a2 2 0 0 0 4 0m-4 0a2 2 0 0 1 4 0"/><path d="M16 19h6m-3-3v6"/></svg>
+              History of Diabetes
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="diabetes" id="db-no" value="false" checked class="sr-only" onchange="toggleMedCard('diabetes-med','card-diabetes',false)" />
+              <label for="db-no" class="yn-pill no-active" id="pill-db-no">No</label>
+              <input type="radio" name="diabetes" id="db-yes" value="true" class="sr-only" onchange="toggleMedCard('diabetes-med','card-diabetes',true)" />
+              <label for="db-yes" class="yn-pill" id="pill-db-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="diabetes-med">
+            <div class="mf-field">
+              <label class="mf-label" for="f-dmed">Medication / Maintenance <span class="req">*</span></label>
+              <input type="text" id="f-dmed" class="mf-input" placeholder="e.g. Metformin 500mg" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Surgery -->
+        <div class="med-card" id="card-surgery">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14.5 12.5-8 8a2.119 2.119 0 0 1-3-3l8-8"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/><path d="m9 7 8 8"/><path d="m21 11-8-8"/></svg>
+              History of Surgery
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="surgery" id="sx-no" value="false" checked class="sr-only" onchange="toggleMedCard('surgery-proc','card-surgery',false)" />
+              <label for="sx-no" class="yn-pill no-active" id="pill-sx-no">No</label>
+              <input type="radio" name="surgery" id="sx-yes" value="true" class="sr-only" onchange="toggleMedCard('surgery-proc','card-surgery',true)" />
+              <label for="sx-yes" class="yn-pill" id="pill-sx-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="surgery-proc">
+            <div class="mf-field">
+              <label class="mf-label" for="f-surgery">Procedure / Operation <span class="req">*</span></label>
+              <input type="text" id="f-surgery" class="mf-input" placeholder="e.g. Appendectomy, Tonsillectomy" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Mental Health -->
+        <div class="med-card" id="card-mental">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a5 5 0 0 1 5 5c0 2.76-2.24 5-5 5S7 9.76 7 7a5 5 0 0 1 5-5z"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+              Mental Health Concerns
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="mental" id="mh-no" value="false" checked class="sr-only" onchange="toggleMedCard('mental-notes','card-mental',false)" />
+              <label for="mh-no" class="yn-pill no-active" id="pill-mh-no">No</label>
+              <input type="radio" name="mental" id="mh-yes" value="true" class="sr-only" onchange="toggleMedCard('mental-notes','card-mental',true)" />
+              <label for="mh-yes" class="yn-pill" id="pill-mh-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="mental-notes">
+            <div class="mf-field">
+              <label class="mf-label" for="f-mental">Notes <span class="req">*</span></label>
+              <input type="text" id="f-mental" class="mf-input" placeholder="Brief description (e.g. Depression, Anxiety)" />
+            </div>
+          </div>
+        </div>
+
+        <!-- COVID -->
+        <div class="med-card" id="card-covid">
+          <div class="med-card-header">
+            <div class="med-card-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+              COVID-19 Vaccination
+            </div>
+            <div class="med-card-yn">
+              <input type="radio" name="covid" id="cv-no" value="false" checked class="sr-only" onchange="toggleMedCard('covid-details','card-covid',false)" />
+              <label for="cv-no" class="yn-pill no-active" id="pill-cv-no">No</label>
+              <input type="radio" name="covid" id="cv-yes" value="true" class="sr-only" onchange="toggleMedCard('covid-details','card-covid',true)" />
+              <label for="cv-yes" class="yn-pill" id="pill-cv-yes">Yes</label>
+            </div>
+          </div>
+          <div class="med-card-detail" id="covid-details">
+            <div class="covid-grid">
+              <div class="mf-field">
+                <label class="mf-label" for="f-dose1">Dose 1 Date</label>
+                <input type="date" id="f-dose1" class="mf-input" />
+              </div>
+              <div class="mf-field">
+                <label class="mf-label" for="f-dose2">Dose 2 Date</label>
+                <input type="date" id="f-dose2" class="mf-input" />
+              </div>
+              <div class="mf-field">
+                <label class="mf-label" for="f-booster">Booster Date</label>
+                <input type="date" id="f-booster" class="mf-input" />
+              </div>
+              <div class="mf-field">
+                <label class="mf-label" for="f-vaccine">Vaccine Brand</label>
+                <input type="text" id="f-vaccine" class="mf-input" placeholder="e.g. Pfizer, Sinovac" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generate tag option (add only) — lives inside Medical tab -->
+        <div id="f-generate-tag-wrap" class="tag-option" style="margin-top:16px;">
+          <label>
+            <input type="checkbox" id="f-generate-tag" checked />
+            <div>
+              Generate QR medical tag after saving
+              <div class="tag-sub">A notification email with the tag details will be sent to the student's EVSU email.</div>
+            </div>
+          </label>
+        </div>
+
+      </div><!-- /panel-medical -->
+
+    </div><!-- /student-modal-body -->
+
+    <!-- Error banner -->
+    <div id="modal-error" style="display:none;margin:0 28px 12px;" class="alert alert-red"></div>
+
+    <!-- Footer -->    <div class="student-modal-footer">
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" id="btn-prev-tab" onclick="prevModalTab()" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary btn-sm" id="btn-next-tab" onclick="nextModalTab()">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="student-modal-footer-right">
+        <button onclick="closeModal()" class="btn btn-ghost">Cancel</button>
+        <button onclick="saveStudent()" class="btn btn-primary" id="btn-save-student" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save Record
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /student-modal-card -->
+</div><!-- /modal-overlay -->
+
+<script src="../assets/js/shared/toast.js"></script>
+<script src="../assets/js/shared/confirm.js"></script>
+<script src="../assets/js/shared/validators.js"></script>
+<script src="../assets/js/shared/sidebar.js"></script>
+<script src="../assets/js/constants/programs.js"></script>
+<script src="../assets/js/shared/app.js"></script>
+<script src="../assets/js/auth/session.js"></script>
+<script src="../assets/js/shared/ph-address.js"></script>
+<script src="../assets/js/students/students.js"></script>
+<script>
+  renderSidebar('students');
+</script>
+</body>
+</html>

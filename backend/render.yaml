@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: evsu-clinic-api
+    runtime: python
+    pythonVersion: "3.11.9"
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: QR_HMAC_SECRET
+        generateValue: true
+      - key: DEACTIVATION_HMAC_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: OTP_EXPIRE_MINUTES
+        value: 15
+      - key: OTP_MAX_ATTEMPTS
+        value: 3
+      - key: ALLOWED_ORIGINS
+        value: '["*"]'
+      - key: PUBLIC_BASE_URL
+        value: https://evsu-clinic-api.onrender.com

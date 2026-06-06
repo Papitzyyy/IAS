@@ -1,0 +1,796 @@
+Effective UI web design follows principles that prioritize usability, clarity, consistency, and user control to create intuitive and engaging experiences.
+Core UI Design Principles
+1. Make Everything Readily Accessible
+Users should find what they need quickly without searching. Organize tools, menus, and help options clearly, using tabs, toolbars, or hover tooltips to enhance accessibility and reduce frustration. 
+Elegant Themes
+
+2. Consistency
+Maintain uniformity in layout, colors, typography, and interaction patterns across the website. Consistency helps users predict behavior and reduces cognitive load. 
+Elegant Themes
++1
+
+3. Clarity and Simplicity
+Design should be clear and straightforward. Avoid unnecessary elements, simplify navigation, and ensure that content is easy to read and understand. 
+GeeksForGeeks
++1
+
+4. Feedback and System Status
+Provide immediate feedback for user actions, such as pop-ups, status bars, or visual cues. This helps users understand outcomes and builds trust in the interface. 
+UX Design Institute
+
+5. Recognition Over Recall
+Design interfaces so users can recognize options rather than remember them. Use familiar icons, labels, and visual cues to reduce memory load. 
+Elegant Themes
++1
+
+6. Hierarchy and Visual Organization
+Use size, color, spacing, and alignment to create a clear hierarchy. Important elements should stand out, and related items should be grouped together to guide user attention. 
+uilaws.com
++1
+
+7. Follow Design Standards
+Adhere to established UI conventions and platform guidelines. Users expect familiar patterns, which improves usability and reduces learning time. 
+uilaws.com
++1
+
+8. User Control and Freedom
+Allow users to undo actions, navigate freely, and feel in control. Avoid forcing users into rigid workflows. 
+Elegant Themes
++1
+
+9. Progressive Disclosure
+Present information gradually, showing only what is necessary at first and revealing more details as needed. This prevents overwhelming users. 
+uxplaybook.org
+
+10. Effective Use of Whitespace and Color
+Whitespace improves readability and focus, while color evokes emotions and highlights key elements. Proper use enhances visual appeal and usability. 
+uilaws.com
++1
+
+11. Minimize Cognitive Load
+Limit the number of choices and simplify interactions. The time to make decisions increases with complexity, so streamline options to improve efficiency. 
+uilaws.com
++1
+
+12. Match the System with the Real World
+Use language, symbols, and metaphors familiar to users. Avoid jargon and ensure the interface reflects real-world expectations. 
+UX Design Institute
+
+By following these rules, designers can create intuitive, user-friendly, and visually appealing web interfaces that enhance user satisfaction and engagement.
+
+Divi Changes Everything. Give It A Test Drive! Learn More
+Elegant Themes
+Divi
+New!
+
+Now Available!
+
+
+
+
+
+
+
+
+Divi For
+
+
+
+
+All Products
+
+
+
+
+
+Contact
+Account
+
+Pricing
+10 Rules of Good UI Design to Follow On Every Web Design Project
+Last Updated on May 16, 2024 by B.J. Keeton 37 Comments
+
+10 Rules of Good UI Design to Follow On Every Web Design ProjectBlog / Resources / 10 Rules of Good UI Design to Follow On Every Web Design Project
+Gone are the days of Geocities sites with their hardcoded, never-changing HTML. Sites and apps today are dynamic and interactive. Our job as designers is to make it so that the interface through which they interact with our web UI design is as close to ideal as possible. Luckily, there are some nearly universal rules of that can help. We have put together what we think are the best design principles so that you can enhance all your future web design projects.
+Table Of Contents
+1 10 Rules of Good UI Design to Follow On Every Web Design Project
+1.1 1. Make Everything the User Needs Readily Accessible
+1.2 2. Be Consistent
+1.3 3. Be Clear
+1.4 4. Give Feedback
+1.5 5. Use Recognition, Not Recall
+1.6 6. Choose How People Will Interact First
+1.7 7. Follow Design Standards
+2 8. Elemental Hierarchy Matters
+2.1 9. Keep Things Simple
+2.2 10. Keep Your Users Free & In Control
+3 Are UI Ready?
+10 Rules of Good UI Design to Follow On Every Web Design Project  
+Subscribe To Our Youtube Channel
+ 1. Make Everything the User Needs Readily Accessible Rules of Good UI Design Whether it’s a series of design tools for web design apps, the inventory for a character in a video game, a spreadsheet, or anything else, if the user can’t find what they want, they bounce off your software. Tabs make things accessible. Shortcuts and hover tooltips, too. We chose to use tabs to organize Divi, for instance. All the tools you need are right there in the builder, separated by category. Toolbars are similarly accessible. If you use WordPress, the admin toolbar gives you the ability to quickly get to the post editor, the theme customizer, plugin settings, and so on. The options are clearly labeled, and you don’t have to search them out. Another example is the Help/Support/Contact options. When designing a UI, whether it’s for a mobile app, web apps, WordPress websites, or anything else, your users will always need to find the Help button (or the Contact Support button). They will absolutely need to contact you at some point. That’s why you must always be sure to put the help buttons front-and-center. Look at Divi. In every module, we have the support button ready for you, at your fingertips, whenever you need it. On top of that, the help window pops up with a video tutorial on whatever feature you’re working with. By including this in-module, Divi becomes far more accessible and less frustrating. Plus, as a part of the UI, the location for help is consistent across the entire product. Which brings us to the next point… 2. Be Consistent Rules of Good UI Design Like we said just a moment ago, being consistent in feature placement within your UI is important. But you should also be concerned that your UI works and looks consistent across the entire product, too. Don’t have the menu on top of one page and at the bottom of another. Don’t rearrange menu items every time it loads. Make sure that your users know where things are on your site. If you keep a contact form underneath your blog posts, don’t decide to leave it off. Users will notice and be baffled. Consistency also includes your fonts and design should work from page to page to page. Don’t go swapping header/body fonts from page to page. There’s an interesting idea called the principle of least surprise that says if you make your user surprised at how something works…rework it so it’s more intuitive. Additionally, you should make sure that your UI is proper for your platform — iOS apps work differently in some cases than Android. Desktop sites have different needs than mobile sites for menus, galleries, and even product checkout. Consistency means that you don’t frustrate your users by making them have to figure out what to do on your site. 3. Be Clear This may seem like a repeat of above, but clarity and consistency are different. Clarity means that you want your users to know what to do at all times. In some ways, this also bleeds into UX design because it reduces frustration on your users and increases retention and reduces bounce rate. Clarity is the reason minimalist (and to an extent brutalist) web design has been so popular. People are not confused about the purpose of any site or page because there is no (or little) clutter. You want to provide the opposite experience that Ling’s Cars does. One way to achieve clarity is to move from one step to another on different pages. Instead of having a checkout process scroll down the page — or be contained within a single section or box — have your users navigate from a Product Page to a Shopping Cart page to a Checkout Page to a Choose Your Payment page to a Place Order page to a Confirmation page. (Amazon does this, as you can see in the image below).  They will know exactly where they stand in the process, eliminating any ambiguity. This is especially important for mobile users, as screen real estate is at a premium. 4. Give Feedback The last thing that users want is to not understand what is going on. If they press a button, provide an indication that the button was pressed. You can do it in multiple ways. You can animate the button, making it appear to sink into the page. Loading icons (like the MacOS Rainbow Wheel) provide feedback, “We are working on your request”, without having to say it. If you allow users to upload files (such as with Dropbox or Google Drive), give an indication of time remaining. Provide a pop-up or modal that tells them their action was a success reduces frustration and confusion.  Really, whenever the user takes any action within your interface, just a small acknowledgment can be the difference in a good experience and a lackluster one. 5. Use Recognition, Not Recall Rules of Good UI Design The opposite of good test-taking skills, you want your users to recognize everything about your site when they see it. They shouldn’t have to think about it and recall the information. More than anything, you are streamlining your interface so that every part is intuitive and moves from one point to another. This can be done by using recognizable icons as we mentioned above. People recognize certain icons for certain things. It can also be done by using virtual tours to guide a user through a process, even when it’s not their first time. They will recognize the process once the first modal appears, and they won’t have to expend the energy recalling exactly how to perform those actions. You may also be able to accomplish this through well-placed messaging that reminds your users of what on your site does what. We accomplish this in Divi with simple hover tooltips — even if someone doesn’t recall what the icon does, we lead them to its function. After that, they should recognize the icon. Or at least the tooltip if they hover again. Or even the process of hovering to get the information. 6. Choose How People Will Interact First
+
+photo credit John Picklap, courtesy of MarieClaire.com
+
+You know what’s the worst? Pushing on a pull door. Especially when you just pushed on a previous to get to that one. That building’s designer made the user interface inconsistent, so you had no clue how to do what you needed to do. What about pressing something that looks like a button that isn’t, but waiting for a response anyway? Well, that’s because those designers didn’t take into consideration how their users were going to interact with their product. So when you’re designing your UI, pick one movement (maybe two) and stick with it. On mobile devices, that tends to be swiping. Look at Snapchat. Pretty much every single action is performed by swiping, including reaching your settings and profile. You can swipe down on Snapchat to see yourself, swipe left to get to the conversations, right to stories, and up to get to your memories (or whatever they’re being called this week). They chose how they wanted their users to interact with their product and designed their UI to accommodate that. Not the other way around. When you’re designing your UI, choose if you’re going to use menus and taps, iconography, swipes and gestures, or something else entirely. Alexa and Siri use voice input as their primary UI interaction. The way they provide information and perform their tasks is designed around that particular input. And as a user, you know what to do intuitively because that information was set out for you at the beginning. The designers told you what to do, and you did it. Your users will appreciate you doing the same for them. 7. Follow Design Standards  The old saying if it ain’t broke, don’t fix it applies here. There really is no need to try to revitalize something if the standard works. That goes from icon usage to standard placement of elements. You don’t want to go against what your users expect things to do. People know that question marks (?) indicate help. So don’t use an exclamation point (!). If you want users to find your mobile menu, use the hamburger icon (the three stacked lines), not a grid. Think about search bars. They tend to be in similar places on most sites: the top of the sidebar or the end of the header menu. If not there, the center of the top section of the page. If you decide to include the only search field at the bottom of your sidebar, page footers, or beneath the text of your blog posts, folks won’t know where to look. Even if you identify it with the standard magnifying glass icon. There’s nothing wrong with thinking outside the box and going for a new and innovative design, but that shouldn’t mean the design is hard to use. 8. Elemental Hierarchy Matters  No, we don’t mean that either Earth, Wind, Water, or Fire is the boss of the others. We mean that the elements on your page need to have a clear hierarchy for both utility and the way the user sees the page. Basically, you want to make sure that the most important functions are at the top of their respective pages. Additionally, this kind of hierarchy can lead the user down the page organically, leading the user through your service. Large elements that decrease in size as you move through the process are indicative of importance and order. So does color and contrast. Making use of whitespace is also important, as clutter can stall user progress and draw the eye away from the purpose of the page. Clean lines, lots of space, and well-defined elements can visually indicate to your users how to move through your UI without any documentation or annotation. A decent rule of thumb is that you want to keep things flowing from left to right, top to bottom. 9. Keep Things Simple Look at this contact form:  Now look at this one:  Both are contact forms to make a request. One of these is no problem to fill out, while the other is a bit more of a headache. Outside of being a government form, the design of the bottom form is not made for the user but for the administrator. That’s not your job. Your job is to make things as frictionless for the user as possible. And one of the best ways to do that is to cut out anything that’s not absolutely necessary. 10. Keep Your Users Free & In Control The very last thing we want to touch on — and the very last thing you want to do with your UI — is taking control from the user. Or to make them feel confined or restricted by your design. You want to empower them, and your UI should allow them to perform the actions they want. There are two parts to this rule: context and permission. First, whatever action the user needs to take should be located near what they want to act on. If they need to edit a post, the edit button should be near the save, publish/submit, preview buttons. In fact, the better option is for contextual menus for all of the actions the user can take on any particular item (or page). If you’re consistent in your UI, as we talked about above, your users will understand that these context menus or toolbars will always have the entire list of actions for any given element.  Additionally, your UI should always make the user feel as though they can get out of or revert any action they take. While you design the UI, they are going to be using it. So they need permission (or maybe even freedom) to do what they need to get the job done. Doing this can be as simple as adding a cancel button to every page of your ecommerce checkout (because pressing the browser’s back button may cause things to go haywire). Maybe it’s an undo feature so they feel that experimentation is okay. Or a revision history for large-scale projects (such as in Google Drive or WordPress or Git).  When your users feel free and unconstrained, you’ve obviously followed some good UI design principles. Are UI Ready? Bad pun. I know, sorry. But with these UI rules, you are absolutely going to be ready to knock your next web design project out of the park. While some of these may apply more to some projects than others, good UI is good UI, and good UI leads to good UX. But that’s a topic for a whole different post. Do you have any rules for good UI design that you always follow? Article featured image by emojoez / shutterstock.com
+Facebook
+Twitter
+LinkedIn
+Pinterest
+
+
+By B.J. Keeton
+B.J. is a content creator for Elegant Themes from North Alabama. He is a runner, runner, gamer, and all-around geek. When he's not digging through WordPress to find new topics, he manages Geek to Geek Media for funsies in his free time and even DMs a couple of D&D games each week.
+
+Explore Divi, The Most Popular WordPress Theme In The World And The Ultimate Page Builder
+Learn About Divi
+Check Out These Related Posts
+Top Features Of Divi Dash For Busy WordPress Agencies
+Updated on January 10, 2025 in Resources
+
+Running a WordPress agency isn’t a walk in the park. It’s a juggling act of keeping clients happy, staying on top of changes, managing your team, building killer websites, and maintaining them — all while trying to stand out in a crowded market. But what if you had a tool to help...
+
+View Full Post
+WordPress vs Medium (2025) — Where Should You Blog?
+Updated on January 7, 2025 in Resources
+
+If there is one question that goes back to the very beginning of blogging, it’s “what blogging platform should I use?” Everyone asks this question (to Google, most likely), and everyone gets bombarded with a thousand different answers. That’s primarily because there are so...
+
+View Full Post
+9 Non-Profit Child Themes for Divi
+Updated on January 23, 2023 in Resources
+
+There are lots of nonprofit organizations across the globe. Just about every one of them needs a well-designed website to tell their story and receive donations to help their causes. Divi is an excellent theme for nonprofits such as charities. Fortunately, you don’t have to start from scratch for...
+
+View Full Post
+37 Comments
+ 
+Rob Dean
+January 28, 2019
+Great! This is such a valuable list to share. Thank you for contributing to better experiences for us all.
+
+Reply
+ 
+Eve Hunt
+January 7, 2019
+In this article i will build and publish a simple Google Chrome extension to easily access Traversy Media links. This is beginner friendly as it is only HTML, CSS and a bit of JSON. Use it to create your own launcher. If you are interested, please download and rate
+
+Reply
+ 
+Eve Hunt
+January 5, 2019
+Fantastic blog! Do you have any recommendations for aspiring writers? I’m planning to start my own website soon but I’m a little lost on everything. Would you propose starting with a free platform like WordPress or go for a paid option? There are so many options out there that I’m completely overwhelmed .. Any tips?
+
+Reply
+ 
+Ram Gupta
+December 28, 2018
+Thanks for sharing such useful information with us…
+
+Reply
+ 
+Rebekah m Ralston
+December 27, 2018
+In point #2, I’ve been using Divi for almost 5 years and I have never seen icon options like that in the blurb module. What plugin are you using for icons?
+
+Reply
+ 
+Brad
+December 31, 2018
+I noticed that, too. Just did a quick search and found this: https://www.elegantthemes.com/blog/divi-resources/divi-plugin-highlight-divi-font-awesome
+
+Reply
+ 
+Pamela Alford
+December 29, 2018
+I think Divi Icon King 🙂
+
+Reply
+ 
+HLEET
+December 26, 2018
+Very helpful advices.
+Thx Divi to make things so easy to make websites
+
+Reply
+ 
+John-Pierre Cornelissen
+December 26, 2018
+Nice article!
+
+In the first point you mention Divi as an example because it makes “Everything the User Needs Readily Accessible”. That’s not entirely true though. For example, you don’t see right away which module design settings have a responsive or hover option. You’ll need to hover over the element title to see the little mobile/arrow buttons.
+
+Reply
+ 
+Jocelyn Wing
+December 26, 2018
+Thank you, BJ for sharing your insight into a good UI design. Do you know where to edit the size of the 3 lines on the mobile menu or the hamburger like icon?
+
+Reply
+ 
+WebLink
+December 25, 2018
+Since you are mentioning DIVI as example a couple of times, I thought to chime in that I miss a prominent category selection on the DIVI blog. Yes, I see there is a list of categories at the bottom. But I cannot tell you how long it took me to find it. I expected a drop down in the menu at the top or a list in a sidebar. I tried the search feature when looking for a certain article that I saw in the past but the the search results where always useless. Not sure if others feel the same way but this was a big aggravation for me until I finally saw the list at the bottom.
+
+Reply
+ 
+AJ Williams
+December 25, 2018
+WELL, I agree times have changed regarding Websites and the first question I ask when a new client needs a website is “show me some websites you have visited that you like”! You need to classify how website friendly they need to be! You also have to classify if they are selling a service or a product. You also have to hit them with a RANGE of money they have to spend on a Website. WHY! Because a startup is just as important as an experienced Website USER.
+This system is more for an experienced Website USER who knows what they want. And it willing to pay for it, and has a website that can handle LOTS of information.
+
+Reply
+ 
+Chook
+December 25, 2018
+This a good reminder. Thanks Tom for writing it and BJ for updating this article. 2 Years on and I’m sure in another couple of years there’s going to be another update to this 🙂
+
+Reply
+ 
+John Roughley
+December 25, 2018
+1. Remember the KISS principle, “keep it simple, stupid”.
+2. Read Don’t Make Me Think: A Common Sense Approach to Web Usability by Steve Krug
+3. See 1 and 2.
+
+Great post.
+
+Reply
+ 
+Simplebutcreative Media
+December 25, 2018
+Thanks for the great insight!
+
+I have so much to learn when it comes to proper web design. I definitely hit on all the points here but so much room for improvement.
+
+Reply
+ 
+dhanushd
+March 19, 2016
+Excellent Post
+You mentioned very good points for an attractive UI design
+Thanks for the Post.
+Regards,
+
+Reply
+ 
+mustafa
+March 17, 2016
+This is a good post
+
+Reply
+ 
+Raxix
+March 9, 2016
+That’s a nice article!!
+
+I think easy navigation and color appearance are the most important aspects for better UX.
+
+Reply
+ 
+Tom Ewer
+March 9, 2016
+Thanks Raxix! Easy navigation and color appearance are certainly important, but we believe everything on the list above is important 🙂
+
+Reply
+ 
+Emily
+March 2, 2016
+This is a very good article for every designer. Thank you very much
+
+Reply
+ 
+Kris
+March 2, 2016
+#11. Become best friends with your copywriter. And YES, use a copywriter.
+
+If design and copy aren’t working together, the UI (and the UX) suffers. It’s all about the easiest path through your website/app/anything, so the storytelling must be seamless. Intuitive. Natural. And that only happens when everyone (designers, coders, copywriters) are collaborating.
+
+I’ve seen so many UX/UI articles where copywriting is never even mentioned, and it’s one of the most important aspects. Not THE most important, but it’s critical.
+
+Reply
+ 
+Khaled
+February 26, 2016
+You sum it up! This is a good post and a good list of rules to follow on every web design project. Thanks for sharing.
+
+Reply
+ 
+Alan
+February 26, 2016
+Fantastic article with some really good tips in it. Thanks for sharing
+
+Reply
+ 
+Alan
+February 26, 2016
+Fantastic article with some really good tips in it. Thanks for sharing
+
+Reply
+ 
+Michael
+February 25, 2016
+Great article Tom, thanks!
+
+Though I have to admit my ‘chuckling’
+when I see the phrase “User Interface/UI”.
+
+Largely due to having come from a career spanning stints as a graphic designer, art director, creative director, then director of creative services.
+
+Although heavily involved in most-things-web now, I still am responsible for “UI” for print marketing media, to include ads, direct mail, brochures, etceteras.
+
+Designing for the media.
+Designing for the market.
+Designing for the user.
+
+IMHO, interfaces are no better defined than “any visual that is in dialogue (if you will), with the user.”
+
+My chuckle is that although the above rings true– you rarely hear someone, working on a print campaign, discussing the media at hand for same (postcard, advertisement, pamphlet/brochure) in terms of UI when well they could.
+
+🙂
+
+Again, thanks for the article.
+And the chuckle.
+
+— Michael
+
+Reply
+ 
+Patrick
+February 25, 2016
+A great post, always good to be reminded of what underpins good designs. When we work with clients, we always highlight the importance of knowing your audience in designing the UX.
+
+It is amazing how many businesses do not know their target markets and prospects well. Going through the process of creating customer personas, we find, informs both the design and content creation processes and, in the end, makes for a site that creates more conversions.
+
+Reply
+ 
+Jesse
+February 25, 2016
+A good summary, thanks. I agree with Ben that content and brand strategy are key drivers for vitrines / content-driven sites. When it comes to transactional or enterprise apps, the focus will be more on task flow, efficiency (of task completion), clear visualization of data, and feedback mechanisms.
+
+Reply
+ 
+Ben Armstrong
+February 24, 2016
+This is another great post by Tom Ewer. It is a great post for learning proper web design. I think every steps of this post are very helpful for every web designers. Thanks you Tom Ewer for such type of informative and knowledgeable article.
+
+Reply
+ 
+Ben
+February 24, 2016
+Content architecture is also at the heart of UI design, especially in the WordPress sites sphere (as it is a content management system after all).
+
+If you have a strong content fondation, which has also consistency, you will be surprise how easy it can be to build pages with such great tools as the Divi Theme/Builder.
+
+Thanks for this nice round up of best practices. I most definitely agree that these skills are the ones that keeps you ahead of the pack as a web dev/designer (not being elitist here – just realistic about the service value).
+
+Reply
+ 
+Rebecca
+February 24, 2016
+I love Elegant Themes! I love Divi! But, you’ve had several blogs in which you use – and don’t define – acronyms such as UI and UX. For the neophytes among us, could you please define the terms you’re using?
+
+Thank you.
+
+Reply
+ 
+Nathan B. Weller
+February 25, 2016
+UI is user interface. UX is user experience.
+
+Reply
+ 
+Mithun
+February 24, 2016
+I believe UI Design helps us to engage our customer.according to me,Ui design can easily maximize the conversion.Thanks for the UI Design rule.I appreciate your hard work 🙂
+
+Reply
+ 
+Phillis
+February 24, 2016
+A Fabulous Post! Shareing…
+
+Reply
+ 
+Jane Cross
+February 24, 2016
+Great article, thanks tom..
+
+Reply
+ 
+UTG Miami
+February 24, 2016
+Nice! for rules of good ui desing!!
+
+Thanks.
+
+Reply
+ 
+P.Panda
+February 24, 2016
+Excellent information but I think these days responsiveness is also playing very important role when it comes to taking decisions on designing part.
+
+Reply
+ 
+Deionna Adams
+February 24, 2016
+I completely agree; we are design for responsiveness and a quicker learning curve.
+
+Reply
+Leave A Reply
+Comments are reviewed and must adhere to our comments policy.
+Enter your comment here
+Comment
+Name
+Name
+Email Address
+Email Address
+
+Recent Posts
+How To Build Custom Woo Checkout Pages In Divi 5
+17 Graphs & Charts For Divi 5 (Free Download!)
+How To Build A Horizontal Blog Loop In Divi 5
+Part 10: Mastering Flexbox In Divi 5
+Part 9: Building The Core Inner Pages Of Your Divi 5 Website
+Categories
+Business
+Community
+Design
+Divi Resources
+Editorial
+Marketing
+Resources
+Theme Releases
+Tips & Tricks
+WordPress
+Follow Us
+Facebook
+Twitter
+LinkedIn
+Dribbble
+RSS
+YouTube
+974,872 Customers Are Already Building Amazing Websites With Divi. Join The Most Empowered WordPress Community On The Web
+Sign Up Today
+We offer a 30 Day Money Back Guarantee, so joining is Risk-Free!
+
+153k
+Followers
+75k
+Members
+63k
+Followers
+325k
+Subscribers
+223k
+Subscribers
+6k
+Followers
+Divi Features
+All Features
+Divi Modules
+Divi Layouts
+Quick Sites
+No-Code Builder
+Workflow
+Ecommerce Websites
+Theme Builder
+Marketing Platform
+Speed & Performance
+Developers
+Premium Support
+Products
+Divi
+Divi 5
+Divi Marketplace
+Divi Cloud
+Divi AI
+Divi Teams
+Divi VIP
+Divi Hosting
+Divi Dash
+Extra Theme
+Bloom Plugin
+Monarch Plugin
+Plans & Pricing
+Resources
+Documentation
+Help Articles & FAQ
+24/7 Support
+Developer Docs
+System Status
+Blog
+Recent Posts
+Product Updates
+Divi Resources
+Business
+WordPress
+Best Plugins
+Top Tools
+Best Hosting
+Community
+Divi Meetups
+Divi Facebook Group
+Divi Examples
+Divi Integrations
+Divi Reviews
+Affiliate Program
+Company
+About Us
+Careers
+Contact Us
+Terms of Service
+Privacy Policy
+Copyright © 2026 Elegant Themes ®
+
+
+Search
+
+Get app
+Write
+Sign up
+
+Sign in
+
+
+Unknown user
+UX Collective
+UX Collective
+We believe designers are thinkers as much as they are makers. https://linktr.ee/uxc
+
+58 rules for beautiful UI design
+The right UI can elevate an application from functional to unforgettable, making the difference between a user who engages once and one who returns time and again.
+Taras Bakusevych
+Taras Bakusevych
+10 min read
+·
+Jan 9, 2024
+--
+
+
+53
+
+
+
+
+Poster presenting 58 tips for beautiful interface design
+Crafted to be your ultimate roadmap in the journey of UI design. Whether you are a seasoned designer looking to refresh your approach or a novice eager to learn the ropes, these rules are tailored to help you create interfaces that are not just visually appealing but also intuitively functional. To navigate this complex terrain, I have compiled 58 rules across eight categories, collectively forming the “Elegance Formula” for user interface design.
+
+Press enter or click to view image in full size
+Elegance Formula
+🫀 Empathy: There is no universal concept of beauty; only when you truly understand your target audience can you create a design that is appealing to them.
+
+🖼️ Layout: The layout is the canvas of your interface; it should guide the user’s eye effortlessly, creating a seamless flow that intuitively connects each element.
+
+🎟 Essentialism: Embrace simplicity; every element in your design should serve a purpose, as clutter can obscure the message and hinder the user experience.
+
+🧭 Guidance: Design should not just please the eye but also lead the user, providing clear pathways and cues for what they should do next.
+
+💎 Aesthetics: Aesthetics go beyond mere appearance; they encapsulate the feel of the design, creating an environment that resonates emotionally with the user.
+
+🛸 Novelty: Innovative designs capture attention, but the true art lies in balancing novelty with familiarity, ensuring users feel intrigued yet comfortable.
+
+🎛 Consistency: Consistency in design breeds familiarity; it ensures the user feels at home across various parts of your interface, building trust and ease of use.
+
+🕹 Engagement: An engaging design is like a good conversation; it keeps the user interested, responds to their actions, and encourages them to come back for more.
+
+Cultural and societal influences play a crucial role in shaping preferences and perceptions
+1. Consider Cultural and Societal Influences: Factor in the diverse cultural and societal backgrounds of your audience to ensure your design resonates broadly and respectfully.
+
+2. Understand Industry and Context of Use: Tailor your design to align with the specific industry norms and the practical context in which your interface will be used.
+
+3. Embrace User Demographics: Embrace the diversity in user demographics, incorporating insights about age, gender, profession, and other factors to craft a more tailored and effective interface.
+
+4. Adapt to Your Audience’s Tech-Savviness: Customize your interface to suit the specific tech-savviness level of your target audience
+
+Press enter or click to view image in full size
+Empathy. Four slider wheels that each represent various possibilities of cultures, demographics, etc
+The Nielsen Norman Group’s research across different demographics — highlighting the unique online behaviors and expectations of young adults, the evolving digital literacy and specific usability needs of seniors, and the distinct and varying design requirements for children — emphasizes the critical importance of empathetic and user-centric design in user interface development to cater effectively to each group’s unique characteristics and preferences.
+
+A well-planned layout is not just about placing elements on a screen; it’s about creating a visual symphony that directs, delights, and engages users
+5. Embrace Negative Space: Use negative space wisely to create a clean, uncluttered interface that highlights the most important elements and improves readability.
+
+6. Use the Golden Ratio or Rule of Thirds: Incorporate the Golden Ratio or the Rule of Thirds in your design to achieve natural balance and aesthetically pleasing proportions.
+
+7. Establish a Clear Hierarchy with Size, Color, and Spacing: Utilize variations in size, color, and spacing to create a visual hierarchy that guides the user’s eye to the most significant information first.
+
+8. Utilize Grid Systems: Implement grid systems to bring structure and consistency to your layout, ensuring a cohesive and harmonious arrangement of elements.
+
+Press enter or click to view image in full size
+Layout. Screenshots of allset App
+The welcome screen of the Allset app skillfully utilizes the Z-pattern layout to create rhythm and direct the user’s attention to the ‘Sign Up’ or ‘Log In’ button. By employing grid systems and ample negative space, the design presents multiple options in a manner that is clear and not overwhelming, effectively balancing information display with visual ease.
+9. Create a Clear Focal Point: Designate a clear focal point in your layout to capture immediate attention and orient the user’s interaction with your content.
+
+10. Create Rhythm to Direct Attention: Employ rhythmic design elements, such as repeated patterns or structured layouts, to create a visual flow that intuitively directs the user’s attention through the interface.
+
+In addition, consider utilizing F and Z-pattern layouts to match users’ natural scanning habits. Employ the F-pattern in text-dense interfaces, strategically placing crucial information at the top and left.
+
+Simplicity is ultimate sophistication
+It’s about stripping away the non-essential elements and focusing on what truly matters to the user.
+
+11. Achieve Simplicity Through Thoughtful Reduction: Prioritize content and features, removing anything non-essential. Focus on the core functionalities to create a streamlined and more user-friendly interface.
+
+12. Organization Helps the System of Many Look Fewer: Use clear categorization and grouping of elements. Implement drop-down menus or tabs to organize content, making the interface less cluttered and more navigable.
+
+13. Don’t Make Users Think: Ensure that navigation and task flows are logical and predictable. Use common UI elements and place them where users expect them to be, reducing cognitive load.
+
+14. Good Design is as Little Design as Possible: Adopt a minimalist approach, using only elements that are necessary for functionality. Avoid excessive use of colors, fonts, and graphics to maintain a clean and focused interface.
+
+Press enter or click to view image in full size
+Tesla App screenshots
+The Tesla App is evidently designed with a focus on minimalism and enduring design aesthetics. This is primarily achieved through the reduction of components and labels. The interface avoids the use of intrusive styles and instead, it employs a digital representation of the car itself as the main visual element.
+15. Break Up Huge Tasks into Smaller Steps: Design complex processes, like forms or multi-step tasks, into smaller segments. Use progress bars or breadcrumbs to visually indicate the user’s progress and what remains.
+
+16. Savings in Time Feel Like Simplicity: Optimize load times and streamline processes to make interactions quicker. Use smart defaults, autocomplete features, and predictive text to speed up user input and decision-making.
+
+You can find more recommendations in How to simplify your design.
+
+It’s not just about leading the user from point A to point B; it’s about creating a journey that feels natural, effortless, and engaging
+The art of designing a user interface involves guiding the user through a digital landscape with intuition and ease.
+
+17. Craft Engaging User Onboarding: Start by designing an engaging onboarding process that educates users about your product from the first interaction. Effective onboarding lays the foundation for the user’s entire experience with your interface.
+
+18. Ensure an Intuitive Flow: Develop your interface with a logical, step-by-step flow that feels natural and requires minimal effort for users to navigate, enhancing their overall experience.
+
+19. Offer Contextual Hints and Tips: Implement contextual assistance such as tooltips, pop-ups, or inline instructions that appear when users need them, aiding in their understanding and use of the interface.
+
+Press enter or click to view image in full size
+How we Feel app screenshots
+The engaging onboarding process of the ‘How We Feel’ app allows users to immediately grasp the value of the product. Helpful tips and guided recommendations are tailored based on the user’s current feelings, fostering a sense of control and intuitiveness in the user experience.
+20. Implement Progressive Disclosure: Strategically reveal information to users, showing only what’s necessary at each step. This approach helps maintain a clean interface and focuses the user’s attention on immediate tasks.
+
+21. Design to Encourage User Actions: Use clear design elements like buttons, icons, and calls to action to guide users towards desired interactions, ensuring these elements are prominent and easily accessible.
+
+Get Taras Bakusevych’s stories in your inbox
+Join Medium for free to get updates from this writer.
+
+Enter your email
+Subscribe
+
+Remember me for faster sign in
+
+22. Provide Feedback for User Actions: Create a system that offers immediate visual or auditory feedback for user actions, acknowledging their interactions and guiding them to the next step in the interface.
+
+Masterfully applied typography helps you stand out, enhance readability and aesthetic appeal
+23. Establish Typography Hierarchy: Create a clear hierarchy using different font sizes, weights, and styles to guide the user’s attention to the most important content first.
+
+24. Prioritize Readability: Choose fonts that are easy to read on various devices and screen sizes. Legibility should be a top priority, especially for body text.
+
+25. Reflect Brand Mood: Select fonts that align with your brand’s personality. Whether it’s professional, playful, or elegant, typography should reinforce the brand’s tone.
+
+Press enter or click to view image in full size
+Nike Run App screenshots
+The Nike Run Club App skillfully employs bold, italic typography as its main focus, evoking a sense of movement and uniqueness without overwhelming, thanks to its sparing use alongside a neutral body font
+26. Pair Fonts Wisely: When combining multiple fonts, ensure they complement each other.
+
+27. Limit Font and Style Variations: Too many font types or styles can create a cluttered and confusing interface. Stick to a limited set to maintain a clean and cohesive look.
+
+28. Adjust Line Spacing, Kerning, and Line Height: Proper spacing between letters (kerning), words, and lines improves readability and text flow. Experiment with different settings to find the most visually appealing and readable format.
+
+The right color choices can make a significant difference in how users perceive and interact with a product
+29. Contrast is Key: Ensure sufficient contrast between text and background to enhance readability and accessibility.
+
+30. Create and Use a Consistent Color Palette: Develop a consistent color palette that reflects your brand identity and use it consistently across your interface to maintain visual coherence.
+
+31. Use the 60–30–10 rule for balancing colors: — 60% dominant color, 30% secondary color, and 10% accent color, to create a visually harmonious interface.
+
+Press enter or click to view image in full size
+MasterClass screenshots
+The MasterClass app serves as an exemplary model for the application of the 60–30–10 rule in design, showcasing how this principle can be effectively utilized to enhance user interface aesthetics and functionality.
+32. Understand Color Psychology and Cultural Significance: Consider how different colors evoke different emotions and meanings in various cultures. Tailoring your color choices to your audience can enhance the user experience and avoid cultural missteps.
+
+33. Communicate Status with Semantic Colors: Use colors to communicate status intuitively, like red for errors or green for success, to help users understand system feedback quickly.
+
+34. Use Color to Guide Actions: Utilize color strategically to highlight key actions, like buttons or links, guiding the user’s attention to important interactions.
+
+Effective visual content in UI design enhances user engagement and emotional connection
+35. Prioritize Content Over Excessive UI Styling: Focus on delivering content through visuals without overwhelming the user with excessive UI decorations. Let the visuals speak for themselves.
+
+36. Purposeful Imagery and Illustrations: Use imagery and illustrations that add meaning to your content. Avoid generic stock photos; opt for custom or carefully selected images that reflect the brand’s identity and message.
+
+37. Keep Text Concise and Straightforward: Complement visuals with clear and concise text. Avoid long paragraphs and opt for bullet points or short descriptions that enhance the visual message.
+
+Press enter or click to view image in full size
+Hims app screenshots
+The Hims app distinguishes itself with a content-first approach, minimizing the reliance on complex UI styling. It employs high-quality visuals, including well-curated photos and short videos, that are consistent with the app’s mood and style, contributing to a cohesive and user-friendly interface.
+38. Micro-Interactions & Delightful Animations: Incorporate subtle animations and micro-interactions that enhance user engagement without detracting from the main content.
+
+39. Use Video for Dynamic Storytelling: Implement video content to tell stories or explain complex concepts dynamically. Videos can be particularly effective in conveying messages that are difficult to express through static images.
+
+40. Incorporate High-Quality Product Shots or Renders: For e-commerce and product-based interfaces, use high-quality photographs or 3D renders of products. Detailed and attractive product visuals can significantly boost user interest and sales.
+
+Innovative or unique interfaces will create memorable experiences, leading to higher user satisfaction.
+41. Strive for Originality and Uniqueness: Create UI designs that stand out with original concepts and unique elements, differentiating your product in a crowded market.
+
+42. Leverage the Latest Technology: Stay abreast of emerging technologies and consider how they can be incorporated into your design to offer cutting-edge experiences.
+
+43. Be the Most Advanced, Yet Acceptable: Push the boundaries of innovation, but ensure your designs remain user-friendly and accessible to your target audience.
+
+Press enter or click to view image in full size
+Citizen app screenshots
+Citizen’s personal safety network empowers users to protect themselves and their communities. Its integration of a personal agent concept is both innovative and user-friendly, offering a novel yet logical enhancement to the experience.
+44. Take Inspiration from Other Industries: Look beyond the field of UI design for inspiration, drawing creative ideas from art, architecture, nature, and more.
+
+45. Be Conscious of Latest Trends, But Do Not Follow Them Blindly: Stay informed about current design trends, but use them judiciously to ensure your design maintains its unique identity.
+
+46. Ensure that Novelty Enhances the User Experience Rather Than Complicating It: Novelty should always serve a purpose, enhancing the overall user experience without adding unnecessary complexity.
+
+Consistency creates a sense of familiarity and helps build trust and confidence
+47. Develop a Comprehensive Design System: A design system acts as a single source of truth for all design elements, ensuring uniformity across all aspects of the UI.
+
+48. Limit Design Patterns: Using a consistent set of design patterns simplifies the user’s interaction model, making the interface more predictable and user-friendly.
+
+49. Ensure Predictability in Element Behavior: Interface elements should behave consistently throughout the application, so users know what to expect from their interactions.
+
+Press enter or click to view image in full size
+Health App screenshots
+The Apple Health app serves as an exemplary model of consistent user experience across various devices. Its extensive library of components and templates ensures that new features and updates can be seamlessly integrated, maintaining ease of use and uniformity.
+50. Use Standardized Templates: For common page types, standardized templates provide a consistent structure, aiding in user navigation and content comprehension.
+
+51. Maintain Cross-Device Consistency: A consistent UI across different devices and platforms enhances the user experience, making the interface more approachable and accessible.
+
+52. Standardize Content Guidelines: Consistent tone, style, and formatting in content presentation help maintain a coherent narrative across the interface.
+
+Create a more immersive user experience that entertains
+53. Introduce Gamification Elements: Incorporate game mechanics like points, badges, and leaderboards to motivate users and encourage interaction.
+
+54. Personalization and Customization: Offer users the ability to customize their experience. Personalization can increase the relevance of the interface to the individual user, enhancing engagement.
+
+55. Utilize Storytelling Techniques: Embed narrative elements in the UI to create a more compelling and memorable user experience. Storytelling can guide users through the interface in an engaging way.
+
+Press enter or click to view image in full size
+Bloom App screenshots
+The Bloom App effectively incorporates gamification and educational components to assist investors in staying engaged and making well-informed investment decisions. An example of this is the offering of random gift stocks, a type of variable reward, which serves to create a sense of delight and surprise among users.
+56. Visually Display Progress: Use visual indicators like progress bars to show users their achievements and progression. This can increase motivation and sense of accomplishment.
+
+57. Incorporate Variable Reward Mechanisms: Implement elements of surprise and delight, such as unexpected rewards or bonuses, to keep users engaged and curious.
+
+58. Integrate Social Features: Include social integration features like sharing achievements or competing with friends to foster a sense of community and encourage continued engagement.
+
+Thank you for reading! If you found these insights helpful, don’t miss out on my poster of “58 Rules for Stunning and Effective User Interface Design.” It’s a practical checklist that you can use to elevate your design skills. You can find it here.
+https://www.figma.com/community/file/1326467076529354215/poster-58-rules-for-stunning-and-effective-user-interface-design
+
+UI
+UX
+Design
+Experience
+Product Design
+--
+
+
+53
+
+
+
+UX Collective
+Published in UX Collective
+602K followers
+·
+Last published 1 day ago
+We believe designers are thinkers as much as they are makers. https://linktr.ee/uxc
+
+Taras Bakusevych
+Written by Taras Bakusevych
+12.5K followers
+·
+71 following
+I help businesses design great experiences www.windmillsmartsolutions.com. Sharing what I learned.
+
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech

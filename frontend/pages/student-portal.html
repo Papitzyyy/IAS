@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRCY Scan and Help — My Medical Profile</title>
+  <meta name="description" content="Student self-service portal for managing your EVSU medical profile." />
+  <link rel="stylesheet" href="../assets/css/app.css?v=2" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      font-family: var(--font, 'Inter', system-ui, sans-serif);
+      color: #1f2937;
+    }
+
+    /* ── Header bar ── */
+    .portal-header {
+      background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);
+      color: #fff;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .portal-header-icon {
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .portal-header-icon svg { width: 26px; height: 26px; }
+    .portal-header-text .eyebrow {
+      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.55);
+    }
+    .portal-header-text h1 {
+      font-size: 1.15rem; font-weight: 800; margin: 2px 0 0;
+    }
+
+    /* ── Continuation banner ── */
+    .continuation-banner {
+      display: none;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #f59e0b;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin: 24px auto 0;
+      max-width: 880px;
+      text-align: center;
+    }
+    .continuation-banner.show { display: block; }
+    .continuation-banner h3 {
+      font-size: 1rem; font-weight: 700; color: #92400e; margin-bottom: 6px;
+    }
+    .continuation-banner p {
+      font-size: 0.82rem; color: #78350f; margin-bottom: 14px;
+    }
+    .continuation-banner .deadline-tag {
+      display: inline-block; background: #dc2626; color: #fff; font-weight: 700;
+      font-size: 0.72rem; padding: 4px 12px; border-radius: 99px; margin-bottom: 14px;
+    }
+    .btn-continue {
+      background: #16a34a; color: #fff; border: none; padding: 12px 32px;
+      font-size: 0.88rem; font-weight: 700; border-radius: 10px; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-family: var(--font);
+    }
+    .btn-continue:hover { background: #15803d; transform: translateY(-1px); }
+    .btn-continue:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+
+    /* ── Loading / error states ── */
+    .portal-state {
+      max-width: 880px; margin: 60px auto;
+      text-align: center; padding: 40px 24px;
+    }
+    .portal-state svg { width: 48px; height: 48px; color: #9ca3af; margin-bottom: 16px; }
+    .portal-state h2 { font-size: 1.1rem; color: #374151; margin-bottom: 6px; }
+    .portal-state p { font-size: 0.85rem; color: #6b7280; }
+
+    /* ── Main card ── */
+    .portal-card {
+      max-width: 880px;
+      margin: 24px auto 40px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+    }
+
+    /* ── Student info bar ── */
+    .student-info-bar {
+      background: #f8fafc;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e5e7eb;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .student-info-left { display: flex; align-items: center; gap: 14px; }
+    .student-avatar {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, #7f1d1d, #dc2626);
+      color: #fff; font-weight: 800; font-size: 1.1rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .student-info-name { font-size: 0.92rem; font-weight: 700; color: #1f2937; }
+    .student-info-sn { font-size: 0.72rem; color: #6b7280; font-family: monospace; }
+    .student-info-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.62rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .badge-active { background: #dcfce7; color: #166534; }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-archived { background: #fef2f2; color: #991b1b; }
+
+    /* ── Tab nav ── */
+    .portal-tab-nav {
+      display: flex; gap: 0;
+      background: #f8fafc;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0 28px;
+      overflow-x: auto;
+    }
+    .portal-tab-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 13px 18px;
+      font-size: 0.78rem; font-weight: 600;
+      color: #9ca3af;
+      background: none; border: none;
+      border-bottom: 2.5px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      font-family: var(--font);
+      margin-bottom: -1px;
+    }
+    .portal-tab-btn svg { width: 14px; height: 14px; }
+    .portal-tab-btn:hover { color: #dc2626; }
+    .portal-tab-btn.active { color: #dc2626; border-bottom-color: #dc2626; background: #fff; }
+
+    .portal-tab-panel { display: none; }
+    .portal-tab-panel.active { display: block; }
+
+    /* ── Body ── */
+    .portal-body { padding: 24px 28px; }
+
+    /* ── Reuse student form styles ── */
+    .p-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .p-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .p-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+    .p-1col { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+
+    .p-section {
+      font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #dc2626;
+      display: flex; align-items: center; gap: 8px;
+      margin: 20px 0 14px;
+    }
+    .p-section::after { content: ''; flex: 1; height: 1px; background: #fee2e2; }
+    .p-section:first-child { margin-top: 0; }
+
+    .p-field { display: flex; flex-direction: column; }
+    .p-label {
+      font-size: 0.72rem; font-weight: 600; color: #6b7280;
+      margin-bottom: 5px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .p-label .req { color: #dc2626; }
+    .p-label .hint { font-weight: 400; color: #9ca3af; font-size: 0.68rem; }
+
+    .p-input {
+      width: 100%; border: 1.5px solid #e5e7eb; border-radius: 8px;
+      padding: 9px 13px; font-size: 0.82rem; outline: none;
+      color: #1f2937; background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: var(--font);
+    }
+    .p-input:focus { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+    .p-input::placeholder { color: #d1d5db; }
+    .p-input[readonly] { background: #f8fafc; color: #9ca3af; cursor: default; }
+
+    /* ── Medical card styles ── */
+    .p-med-card {
+      background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;
+      padding: 14px 18px; margin-bottom: 12px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .p-med-card.yes-active { background: #fef2f2; border-color: #fca5a5; }
+    .p-med-header {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .p-med-label {
+      font-size: 0.78rem; font-weight: 600; color: #374151;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .p-med-label svg { width: 16px; height: 16px; color: #6b7280; }
+    .p-yn { display: flex; gap: 2px; }
+    .p-yn-pill {
+      padding: 4px 14px; font-size: 0.68rem; font-weight: 700;
+      border: 1.5px solid #e5e7eb; background: #fff; color: #9ca3af;
+      cursor: pointer; transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .p-yn-pill:first-of-type { border-radius: 6px 0 0 6px; }
+    .p-yn-pill:last-of-type { border-radius: 0 6px 6px 0; }
+    .p-yn-pill.no-active { background: #f0fdf4; color: #166534; border-color: #86efac; }
+    .p-yn-pill.yes-active { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+    .p-med-detail { display: none; margin-top: 12px; }
+    .p-med-detail.show { display: block; }
+
+    /* ── Footer ── */
+    .portal-footer {
+      padding: 16px 28px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafbfc;
+    }
+    .portal-save-btn {
+      background: linear-gradient(135deg, #7f1d1d, #dc2626);
+      color: #fff; border: none; padding: 11px 28px;
+      font-size: 0.82rem; font-weight: 700; border-radius: 10px;
+      cursor: pointer; transition: opacity 0.2s, transform 0.1s;
+      font-family: var(--font);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .portal-save-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .portal-save-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .portal-save-btn svg { width: 16px; height: 16px; }
+
+    .portal-alert {
+      display: none; padding: 10px 16px; margin: 0 28px 12px;
+      border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+    }
+    .portal-alert.error { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; display: block; }
+    .portal-alert.success { background: #f0fdf4; color: #166534; border: 1px solid #86efac; display: block; }
+
+    /* ── COVID grid ── */
+    .p-covid-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .portal-header { padding: 16px 20px; }
+      .portal-card { margin: 16px 12px 32px; border-radius: 14px; }
+      .portal-body { padding: 18px 18px; }
+      .p-2col, .p-3col, .p-4col { grid-template-columns: 1fr; }
+      .p-covid-grid { grid-template-columns: 1fr; }
+      .student-info-bar { padding: 12px 18px; }
+      .portal-footer { padding: 14px 18px; flex-direction: column; gap: 10px; }
+      .continuation-banner { margin: 16px 12px 0; }
+    }
+
+    /* Toast styles (standalone) */
+    .portal-toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #1f2937; color: #fff;
+      padding: 12px 20px; border-radius: 10px;
+      font-size: 0.82rem; font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 9999;
+      animation: toastIn 0.3s ease;
+    }
+    .portal-toast.success { background: #166534; }
+    .portal-toast.error { background: #991b1b; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="portal-header">
+  <div class="portal-header-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+    </svg>
+  </div>
+  <div class="portal-header-text">
+    <div class="eyebrow">EVSU Ormoc Campus Clinic</div>
+    <h1>My Medical Profile</h1>
+  </div>
+</div>
+
+<!-- Loading state -->
+<div id="portal-loading" class="portal-state">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  <h2>Loading your profile…</h2>
+  <p>Please wait while we retrieve your data.</p>
+</div>
+
+<!-- Error state -->
+<div id="portal-error" class="portal-state" style="display:none;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <h2 id="portal-error-title">Invalid Link</h2>
+  <p id="portal-error-msg">This link is invalid or has expired. Please contact the EVSU Ormoc Clinic for a new one.</p>
+</div>
+
+<!-- Continuation banner -->
+<div id="continuation-banner" class="continuation-banner">
+  <h3>🎓 New Semester — Confirm Your Enrollment</h3>
+  <p>The clinic is asking all registered students to confirm if they wish to continue the CRCY Scan and Help service.</p>
+  <div class="deadline-tag" id="continuation-deadline"></div>
+  <br>
+  <button class="btn-continue" id="btn-confirm-continue" onclick="confirmContinuation()">
+    ✓ Yes, Continue My Service
+  </button>
+</div>
+
+<!-- Main card (hidden until loaded) -->
+<div id="portal-main" class="portal-card" style="display:none;">
+
+  <!-- Student info bar -->
+  <div class="student-info-bar">
+    <div class="student-info-left">
+      <div class="student-avatar" id="portal-avatar">?</div>
+      <div>
+        <div class="student-info-name" id="portal-name">—</div>
+        <div class="student-info-sn" id="portal-sn">—</div>
+      </div>
+    </div>
+    <div class="student-info-badges">
+      <span class="badge" id="portal-status-badge">—</span>
+    </div>
+  </div>
+
+  <!-- Tab nav -->
+  <div class="portal-tab-nav" role="tablist">
+    <button class="portal-tab-btn active" data-tab="personal" onclick="switchPortalTab('personal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Personal Info
+    </button>
+    <button class="portal-tab-btn" data-tab="guardian" onclick="switchPortalTab('guardian')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Guardian
+    </button>
+    <button class="portal-tab-btn" data-tab="medical" onclick="switchPortalTab('medical')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Medical History
+    </button>
+  </div>
+
+  <!-- Body -->
+  <div class="portal-body">
+
+    <!-- TAB: Personal Info -->
+    <div class="portal-tab-panel active" id="panel-personal">
+      <div class="p-section">Identification</div>
+      <div class="p-2col">
+        <div class="p-field">
+          <label class="p-label">Student Number</label>
+          <input type="text" id="sp-sn" class="p-input" readonly />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Program</label>
+          <select id="sp-program" class="p-input"></select>
+        </div>
+      </div>
+
+      <div class="p-section">Full Name</div>
+      <div class="p-2col">
+        <div class="p-field">
+          <label class="p-label">Last Name <span class="req">*</span></label>
+          <input type="text" id="sp-last" class="p-input" placeholder="Dela Cruz" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">First Name <span class="req">*</span></label>
+          <input type="text" id="sp-first" class="p-input" placeholder="Juan" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Middle Name <span class="hint">(optional)</span></label>
+          <input type="text" id="sp-middle" class="p-input" placeholder="Santos" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Suffix <span class="hint">(Jr., Sr.)</span></label>
+          <input type="text" id="sp-suffix" class="p-input" placeholder="Jr." />
+        </div>
+      </div>
+
+      <div class="p-section">Personal Details</div>
+      <div class="p-4col">
+        <div class="p-field">
+          <label class="p-label">Birthdate</label>
+          <input type="date" id="sp-birthdate" class="p-input" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Age</label>
+          <input type="number" id="sp-age" class="p-input" placeholder="—" min="1" max="99" readonly />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Gender</label>
+          <select id="sp-gender" class="p-input">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="p-field">
+          <label class="p-label">Place of Birth</label>
+          <input type="text" id="sp-pob" class="p-input" placeholder="City, Province" />
+        </div>
+      </div>
+      <div class="p-1col">
+        <div class="p-field">
+          <label class="p-label">Home Address</label>
+          <input type="text" id="sp-address" class="p-input" placeholder="Full address" />
+        </div>
+      </div>
+      <div class="p-2col">
+        <div class="p-field">
+          <label class="p-label">Contact Number <span class="hint">(PH mobile)</span></label>
+          <input type="tel" id="sp-contact" class="p-input" placeholder="09XXXXXXXXX" maxlength="11" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 11);" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">EVSU Email</label>
+          <input type="email" id="sp-email" class="p-input" readonly />
+        </div>
+      </div>
+    </div><!-- /panel-personal -->
+
+    <!-- TAB: Guardian -->
+    <div class="portal-tab-panel" id="panel-guardian">
+      <div class="p-section">Parent / Guardian Information</div>
+      <div class="p-3col">
+        <div class="p-field">
+          <label class="p-label">First Name</label>
+          <input type="text" id="sp-gfirst" class="p-input" placeholder="Maria" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Middle Name</label>
+          <input type="text" id="sp-gmiddle" class="p-input" placeholder="" />
+        </div>
+        <div class="p-field">
+          <label class="p-label">Last Name</label>
+          <input type="text" id="sp-glast" class="p-input" placeholder="Dela Cruz" />
+        </div>
+      </div>
+      <div class="p-2col">
+        <div class="p-field">
+          <label class="p-label">Guardian Contact <span class="hint">(PH mobile)</span></label>
+          <input type="tel" id="sp-gcontact" class="p-input" placeholder="09XXXXXXXXX" maxlength="11" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 11);" />
+        </div>
+      </div>
+      <div class="p-1col">
+        <div class="p-field">
+          <label class="p-label">Guardian Address</label>
+          <input type="text" id="sp-gaddress" class="p-input" placeholder="Full address" />
+        </div>
+      </div>
+    </div><!-- /panel-guardian -->
+
+    <!-- TAB: Medical History -->
+    <div class="portal-tab-panel" id="panel-medical">
+      <div class="p-section">Vital Information</div>
+      <div class="p-2col">
+        <div class="p-field">
+          <label class="p-label">Blood Type</label>
+          <select id="sp-blood" class="p-input">
+            <option value="">— Select —</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="p-section">Conditions &amp; Allergies</div>
+
+      <!-- Hypertension -->
+      <div class="p-med-card" id="pc-hypertension">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Hypertension / High Blood Pressure
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-hyp-no" onclick="togglePortalMed('hypertension', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-hyp-yes" onclick="togglePortalMed('hypertension', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-hypertension">
+          <div class="p-field">
+            <label class="p-label">Medication / Maintenance <span class="req">*</span></label>
+            <input type="text" id="sp-hmed" class="p-input" placeholder="e.g. Amlodipine 5mg" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Disease -->
+      <div class="p-med-card" id="pc-disease">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Health Diseases / Illness
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-hd-no" onclick="togglePortalMed('disease', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-hd-yes" onclick="togglePortalMed('disease', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-disease">
+          <div class="p-field">
+            <label class="p-label">Diagnosis / Condition <span class="req">*</span></label>
+            <input type="text" id="sp-diag" class="p-input" placeholder="e.g. Asthma, Epilepsy" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Food Allergy -->
+      <div class="p-med-card" id="pc-food">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            Food Allergies
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-fa-no" onclick="togglePortalMed('food', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-fa-yes" onclick="togglePortalMed('food', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-food">
+          <div class="p-field">
+            <label class="p-label">Specify Allergens <span class="req">*</span></label>
+            <input type="text" id="sp-food" class="p-input" placeholder="e.g. Shellfish, Peanuts" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Drug Allergy -->
+      <div class="p-med-card" id="pc-drug">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.5 20H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2v3"/><circle cx="18" cy="18" r="3"/><path d="m22 22-1.5-1.5"/></svg>
+            Medicine / Drug Allergies
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-da-no" onclick="togglePortalMed('drug', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-da-yes" onclick="togglePortalMed('drug', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-drug">
+          <div class="p-field">
+            <label class="p-label">Specify Medicines <span class="req">*</span></label>
+            <input type="text" id="sp-drug" class="p-input" placeholder="e.g. Penicillin, Aspirin" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Diabetes -->
+      <div class="p-med-card" id="pc-diabetes">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5"/><path d="M16 19h6m-3-3v6"/></svg>
+            History of Diabetes
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-db-no" onclick="togglePortalMed('diabetes', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-db-yes" onclick="togglePortalMed('diabetes', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-diabetes">
+          <div class="p-field">
+            <label class="p-label">Medication / Maintenance <span class="req">*</span></label>
+            <input type="text" id="sp-dmed" class="p-input" placeholder="e.g. Metformin 500mg" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Surgery -->
+      <div class="p-med-card" id="pc-surgery">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14.5 12.5-8 8a2.119 2.119 0 0 1-3-3l8-8"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/></svg>
+            History of Surgery
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-sx-no" onclick="togglePortalMed('surgery', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-sx-yes" onclick="togglePortalMed('surgery', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-surgery">
+          <div class="p-field">
+            <label class="p-label">Procedure / Operation <span class="req">*</span></label>
+            <input type="text" id="sp-surgery" class="p-input" placeholder="e.g. Appendectomy" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Mental Health -->
+      <div class="p-med-card" id="pc-mental">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a5 5 0 0 1 5 5c0 2.76-2.24 5-5 5S7 9.76 7 7a5 5 0 0 1 5-5z"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+            Mental Health Concerns
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-mh-no" onclick="togglePortalMed('mental', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-mh-yes" onclick="togglePortalMed('mental', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-mental">
+          <div class="p-field">
+            <label class="p-label">Notes <span class="req">*</span></label>
+            <input type="text" id="sp-mental" class="p-input" placeholder="e.g. Depression, Anxiety" />
+          </div>
+        </div>
+      </div>
+
+      <!-- COVID -->
+      <div class="p-med-card" id="pc-covid">
+        <div class="p-med-header">
+          <div class="p-med-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            COVID-19 Vaccination
+          </div>
+          <div class="p-yn">
+            <label class="p-yn-pill no-active" id="pill-sp-cv-no" onclick="togglePortalMed('covid', false)">No</label>
+            <label class="p-yn-pill" id="pill-sp-cv-yes" onclick="togglePortalMed('covid', true)">Yes</label>
+          </div>
+        </div>
+        <div class="p-med-detail" id="det-covid">
+          <div class="p-covid-grid">
+            <div class="p-field">
+              <label class="p-label">Dose 1 Date</label>
+              <input type="date" id="sp-dose1" class="p-input" />
+            </div>
+            <div class="p-field">
+              <label class="p-label">Dose 2 Date</label>
+              <input type="date" id="sp-dose2" class="p-input" />
+            </div>
+            <div class="p-field">
+              <label class="p-label">Booster Date</label>
+              <input type="date" id="sp-booster" class="p-input" />
+            </div>
+            <div class="p-field">
+              <label class="p-label">Vaccine Brand</label>
+              <input type="text" id="sp-vaccine" class="p-input" placeholder="e.g. Pfizer, Sinovac" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /panel-medical -->
+
+  </div><!-- /portal-body -->
+
+  <!-- Alert area -->
+  <div id="portal-alert" class="portal-alert"></div>
+
+  <!-- Footer -->
+  <div class="portal-footer">
+    <p style="font-size:0.72rem;color:#9ca3af;margin:0;">Your data is encrypted and stored securely.</p>
+    <button class="portal-save-btn" id="btn-save-portal" onclick="savePortalProfile()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Changes
+    </button>
+  </div>
+
+</div><!-- /portal-card -->
+
+<script src="../assets/js/constants/programs.js"></script>
+<script src="../assets/js/students/student-portal.js"></script>
+</body>
+</html>

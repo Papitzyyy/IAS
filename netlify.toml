@@ -1,0 +1,27 @@
+# Netlify Configuration for CRCY Scan and Help
+# The frontend is plain HTML/JS/CSS — no build step needed.
+# All /api/* requests are proxied to the backend.
+
+[build]
+  publish = "frontend"
+  # No build command — static files only
+
+# Proxy API calls to the backend
+# !! REPLACE the "to" URL with your actual backend URL (e.g. Render, Ngrok, etc.) !!
+[[redirects]]
+  from = "/api/*"
+  to = "https://ias-online.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/health"
+  to = "https://ias-online.onrender.com/health"
+  status = 200
+  force = true
+
+# SPA fallback — serve index/login for unknown routes
+[[redirects]]
+  from = "/*"
+  to = "/pages/login.html"
+  status = 200

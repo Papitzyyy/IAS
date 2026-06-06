@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: evsu-clinic-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: EMAIL_FROM
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: QR_HMAC_SECRET
+        generateValue: true
+      - key: DEACTIVATION_HMAC_SECRET
+        generateValue: true
+      - key: MAILJET_API_KEY
+        sync: false
+      - key: MAILJET_API_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: OTP_EXPIRE_MINUTES
+        value: 15
+      - key: OTP_MAX_ATTEMPTS
+        value: 3
+      - key: ALLOWED_ORIGINS
+        value: '["*"]'
+      - key: PUBLIC_BASE_URL
+        value: https://ias-online.onrender.com
+

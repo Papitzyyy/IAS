@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "CRCY Scan and Help",
+    "slug": "crcy-scan-and-help",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "crcy",
+    "userInterfaceStyle": "light",
+    "icon": "./assets/logo.png",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#B91C1C"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#B91C1C"
+      },
+      "package": "com.evsu.crcyscanandhelp",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow CRCY Scan and Help to access your camera to scan student QR tags."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/logo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#B91C1C"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fa5f2c31-f750-407b-9c82-bb15989ae483"
+      }
+    }
+  }
+}

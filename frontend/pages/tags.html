@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CRCY Scan and Help — QR Tags</title>
+  <link rel="stylesheet" href="../assets/css/app.css?v=2" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+  <style>
+    #modal-qr {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 500;
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    #modal-qr.open { display: flex; }
+
+    .student-card { transition: background 0.12s; cursor: pointer; }
+    .student-card:hover { background: #f0f9ff; }
+    .student-card.selected { background: #fef2f2; box-shadow: inset 3px 0 0 var(--blue); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-content">
+    <div class="page-body">
+
+      <div class="page-header">
+        <h1>QR Tags</h1>
+        <p>Issue, view, and deactivate student medical QR tags</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button id="tab-generate" class="tab-btn active" onclick="switchTab('generate')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Issue Tag
+        </button>
+        <button id="tab-active" class="tab-btn" onclick="switchTab('active')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          All Tags
+        </button>
+      </div>
+
+      <!-- ── Issue Tag Panel ── -->
+      <div id="panel-generate">
+        <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:20px;">
+
+          <!-- Step 1: Student picker -->
+          <div class="card" style="overflow:hidden;display:flex;flex-direction:column;">
+            <div style="padding:14px 16px;background:#f8fafc;border-bottom:1px solid var(--border);">
+              <div class="search-bar" style="box-shadow:none;border-color:var(--border);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="search" id="tag-search" placeholder="Search name, student no., or email…" />
+              </div>
+            </div>
+            <div id="student-picker-list" style="flex:1;overflow-y:auto;max-height:460px;">
+              <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                <p>Loading students…</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Review & generate -->
+          <div>
+            <!-- Empty state -->
+            <div id="tag-wizard-empty" class="card" style="padding:48px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:300px;">
+              <div style="width:52px;height:52px;background:var(--blue-light);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
+                <svg style="width:24px;height:24px;color:var(--blue);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </div>
+              <p style="font-weight:700;color:var(--text-primary);">Select a student</p>
+              <p style="font-size:0.78rem;color:var(--text-muted);margin-top:6px;max-width:260px;">Choose a student from the list to review their info and generate a QR medical tag.</p>
+            </div>
+
+            <!-- Student detail card -->
+            <div id="tag-wizard-panel" class="hidden card" style="overflow:hidden;">
+              <div style="background:var(--blue);padding:20px 24px;color:#fff;">
+                <h3 id="wizard-name" style="font-size:1.1rem;font-weight:800;"></h3>
+                <p id="wizard-meta" style="font-size:0.78rem;opacity:0.85;margin-top:3px;color:rgba(255,255,255,0.85);"></p>
+              </div>
+
+              <div style="padding:20px 24px;">
+                <!-- Allergy alert -->
+                <div id="wizard-allergy-box" class="hidden alert alert-red" style="margin-bottom:14px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <div>
+                    <p style="font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Allergy Alert</p>
+                    <p id="wizard-allergies" style="font-size:0.8rem;"></p>
+                  </div>
+                </div>
+                <div id="wizard-no-allergy" class="alert alert-green" style="margin-bottom:14px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>No allergies on file</span>
+                </div>
+
+                <!-- Info grid -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+                  <div style="background:#f8fafc;border-radius:8px;padding:10px 12px;">
+                    <p style="font-size:0.65rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Program</p>
+                    <p id="wizard-program" style="font-weight:700;color:var(--text-primary);margin-top:3px;font-size:0.82rem;">—</p>
+                  </div>
+                  <div style="background:#f8fafc;border-radius:8px;padding:10px 12px;">
+                    <p style="font-size:0.65rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Blood Type</p>
+                    <p id="wizard-blood" style="font-weight:700;color:var(--text-primary);margin-top:3px;font-size:0.82rem;">—</p>
+                  </div>
+                </div>
+
+                <!-- Tag status notice -->
+                <div id="wizard-has-tag-notice" class="hidden alert alert-amber" style="margin-bottom:14px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <span><strong>This student already has an active tag.</strong> Deactivate the existing tag first before issuing a new one.</span>
+                </div>
+
+                <button type="button" id="btn-wizard-generate" class="btn btn-success" style="width:100%;justify-content:center;padding:11px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  Generate QR Medical Tag
+                </button>
+                <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;text-align:center;">Student receives an email with tag details and a self-deactivate link.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── All Tags Panel ── -->
+      <div id="panel-active" style="display:none;">
+        <!-- Search + course filter -->
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+          <div class="search-bar" style="flex:1;min-width:200px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="tags-search" placeholder="Search by student name or number…" />
+          </div>
+          <select id="tags-course-filter" aria-label="Filter by course"
+            style="border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:9px 13px;font-size:0.82rem;font-family:var(--font);color:var(--text-primary);background:#fff;outline:none;cursor:pointer;min-width:160px;transition:border-color 0.15s,box-shadow 0.15s;">
+            <option value="">All Courses</option>
+          </select>
+          <div id="tags-count" style="font-size:0.75rem;color:var(--text-muted);white-space:nowrap;align-self:center;"></div>
+        </div>
+        <div class="toolbar">
+          <p style="font-size:0.8rem;color:var(--text-muted);">All tags in the system. Deactivate lost or compromised tags here.</p>
+          <div class="toolbar-right">
+            <button onclick="filterTags('all')" id="filter-all" class="btn btn-primary btn-sm">All</button>
+            <button onclick="filterTags('active')" id="filter-active" class="btn btn-ghost btn-sm">Active</button>
+            <button onclick="filterTags('inactive')" id="filter-inactive" class="btn btn-ghost btn-sm">Deactivated</button>
+          </div>
+        </div>
+        <div id="tags-container">
+          <div class="table-wrap">
+            <div class="empty-state">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <p>Loading tags…</p>
+            </div>
+          </div>
+        </div>
+        <div id="tags-pagination" class="pagination" style="margin-top:14px;" aria-label="Tags pagination"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── QR Success Modal ── -->
+<div id="modal-qr">
+  <div style="background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);width:100%;max-width:360px;overflow:hidden;">
+    <div style="background:linear-gradient(135deg,#16a34a,#059669);padding:24px;color:#fff;text-align:center;">
+      <div style="width:48px;height:48px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;" aria-hidden="true">
+        <svg style="width:22px;height:22px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3 style="font-size:1.05rem;font-weight:800;">Tag Generated</h3>
+      <p id="qr-name" style="font-size:0.78rem;opacity:0.75;margin-top:3px;"></p>
+    </div>
+    <div style="padding:24px;text-align:center;">
+      <div style="background:#f8fafc;border-radius:12px;padding:16px;display:inline-block;margin-bottom:14px;border:1px solid var(--border);">
+        <canvas id="qr-canvas"></canvas>
+      </div>
+      <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:18px;line-height:1.6;">
+        Print this QR code and attach it to the student's ID or clinic card.<br>
+        A notification email has been sent to the student.
+      </p>
+      <div style="display:flex;gap:10px;">
+        <button onclick="printQR()" class="btn btn-primary" style="flex:1;justify-content:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save
+        </button>
+        <button onclick="closeQR()" class="btn btn-ghost" style="flex:1;justify-content:center;">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/shared/toast.js"></script>
+<script src="../assets/js/shared/confirm.js"></script>
+<script src="../assets/js/shared/sidebar.js"></script>
+<script src="../assets/js/constants/programs.js"></script>
+<script src="../assets/js/shared/app.js"></script>
+<script src="../assets/js/auth/session.js"></script>
+<script src="../assets/js/tags/tags.js"></script>
+<script>
+  renderSidebar('tags');
+</script>
+</body>
+</html>

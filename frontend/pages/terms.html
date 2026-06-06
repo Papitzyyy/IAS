@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRCY Scan and Help — Terms and Conditions</title>
+  <link rel="stylesheet" href="../assets/css/app.css?v=2" />
+  <style>
+    body {
+      background: #eef2f9;
+      padding: 40px 20px;
+      font-family: var(--font);
+      color: var(--text-primary);
+    }
+    .terms-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 40px 50px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .terms-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .terms-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #7f1d1d;
+      margin-bottom: 10px;
+    }
+    .terms-content h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #7f1d1d;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--blue-light);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+    .terms-content h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    .terms-content p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .terms-content ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+    .terms-content li {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terms-container">
+    <a href="login.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Login
+    </a>
+
+    <div class="terms-header">
+      <h1>Online Services Terms of Use and Privacy Statement</h1>
+      <p style="color: var(--text-muted);">Last Updated: June 2026</p>
+    </div>
+
+    <div class="terms-content">
+      <h2>Terms and Conditions</h2>
+      <p>Please read these terms and conditions carefully before using Our Service. These Terms apply to the CRCY Scan and Help: EVSU Student Medical Tag System.</p>
+
+      <h2>Interpretation and Definitions</h2>
+      
+      <h3>Interpretation</h3>
+      <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
+      
+      <h3>Definitions</h3>
+      <p>For the purposes of these Terms and Conditions:</p>
+      <ul>
+        <li><strong>System</strong> refers to the CRCY Scan and Help Secure Information System consisting of a web dashboard and a secure Android application.</li>
+        <li><strong>Clinic Admins</strong> means authorized staff of the EVSU clinic who possess write/update access to student files, auditor logs, and staff configurations.</li>
+        <li><strong>CRCY Responders</strong> means authorized College Red Cross Youth student responders with read-only scanner capabilities via the mobile application.</li>
+        <li><strong>Students (Data Subjects)</strong> refers to the opt-in data owners who submit a medical consent form at the EVSU clinic.</li>
+        <li><strong>QR Tag</strong> refers to the physical print-ready tag containing a signed UUID token, securely linked to a student's medical directives.</li>
+      </ul>
+
+      <h2>Acknowledgement</h2>
+      <p>These are the Terms and Conditions governing the use of this System and the agreement that operates between You and the EVSU Ormoc Campus Clinic. These Terms set out the rights and obligations of all users (Admins, Responders, and Students) regarding the use of the System.</p>
+
+      <h2>Description of Services</h2>
+      <p>The purpose of this System is to demonstrate core principles of Information Assurance and Security, including data protection, authentication, access control, and secure system integration. It serves the EVSU Ormoc Campus by providing CRCY student responders with instant, secure access to student-approved medical directives via tokenized QR codes during campus medical emergencies.</p>
+
+      <h2>Limitation of Use</h2>
+      <p>The System is subject to the following limitations:</p>
+      <ul>
+        <li><strong>Hardware Dependency:</strong> Responders must have a functioning, charged smartphone to run the scanner.</li>
+        <li><strong>Connectivity Required:</strong> The application requires active EVSU intranet/internet connectivity to query the API and load the student profile.</li>
+        <li><strong>Physical Tag Dependency:</strong> Students must have their physical QR tag on their person during an emergency.</li>
+        <li><strong>Admin-Mediated Data:</strong> Students cannot update profiles directly. All data updates are entered by clinic admins based on physical consent forms.</li>
+      </ul>
+
+      <h2>Prohibited Use of the Services</h2>
+      <p>You may not use the System to:</p>
+      <ul>
+        <li>Attempt unauthorized access to administrative API endpoints or mobile scanner views outside your Role-Based Access Control (RBAC) permissions.</li>
+        <li>Create spoofed or manually altered QR codes to deceive the cryptographic verification systems (HMAC-SHA256).</li>
+        <li>Execute brute-force login attacks against the Multi-Factor Authentication (MFA) mechanisms.</li>
+        <li>Extract or copy raw medical text maliciously without a signed responder session.</li>
+      </ul>
+
+      <h2>Use of Services</h2>
+      <p>By using the System, you agree to comply with all security implementations. Active responder sessions are strictly monitored and expire after 30 days to facilitate continuous availability. Clinic admins hold a remote kill switch to immediately deactivate any responder and invalidate their active session tokens in the event of a lost device or unauthorized access.</p>
+
+      <h2>Privacy Policy</h2>
+      <p>The System adheres strictly to the right-to-erasure and notification principles of RA 10173 (Data Privacy Act of 2012). Students must opt-in by submitting a physical medical consent form. Upon registration, students receive an automated email summarizing their encoded profile and providing a one-click tag deactivation link. All data in transit is protected over secure TLS/HTTPS configurations, and sensitive credentials at rest are strongly hashed utilizing bcrypt and SHA-256.</p>
+
+      <h2>Intellectual property</h2>
+      <p>The System and its original content, security features (including cryptographic tokenization methods and API designs), and functionality are and will remain the exclusive property of the EVSU Ormoc Campus and its authorized developers. The System is protected by copyright and other intellectual property laws.</p>
+
+      <h2>User accounts</h2>
+      <p>When you are provisioned an account as an Admin or Responder, you must use your registered EVSU institutional email address. You are responsible for safeguarding your credentials and the 6-digit numeric One-Time Passwords (OTP) sent to your email. You must not share your account or access with any third party.</p>
+
+      <h2>Applicable law</h2>
+      <p>The laws of the Republic of the Philippines, excluding its conflicts of law rules, shall govern these Terms and Your use of the Service. Your use of the Application may also be subject to local university policies.</p>
+
+      <h2>Indemnification</h2>
+      <p>You agree to defend, indemnify and hold harmless the EVSU Ormoc Campus Clinic, its officers, directors, employees, and agents, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses arising from your improper use of the System or violation of these Terms.</p>
+
+      <h2>Limitation on liability</h2>
+      <p>Notwithstanding any damages that You might incur, the entire liability of the creators of this System and any of its suppliers under any provision of this Terms and Your exclusive remedy for all of the foregoing shall be limited to the maximum extent permitted by applicable law. The System provides medical directive guidance but does not replace professional medical judgment.</p>
+    </div>
+  </div>
+
+</body>
+</html>

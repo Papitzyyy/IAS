@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CRCY Scan and Help — Audit Logs</title>
+  <link rel="stylesheet" href="../assets/css/app.css?v=2" />
+  <style>
+    .filter-select {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      outline: none;
+      color: var(--text-primary);
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: var(--font);
+      cursor: pointer;
+    }
+    .filter-select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    /* Immutable badge */
+    .immutable-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--amber-light); border: 1px solid #fde68a;
+      color: #92400e; border-radius: 20px;
+      padding: 3px 10px; font-size: 0.68rem; font-weight: 600;
+    }
+    .immutable-badge svg { width: 11px; height: 11px; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-content">
+    <div class="page-body">
+
+      <div class="page-header page-header-row">
+        <div>
+          <h1>Audit Logs</h1>
+          <p>Immutable record of all system events</p>
+        </div>
+        <span class="immutable-badge" title="Audit records cannot be modified or deleted">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Tamper-evident
+        </span>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="card" style="padding:14px 20px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <svg style="width:16px;height:16px;color:var(--text-muted);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          <label for="filter-action" class="sr-only">Filter by action</label>
+          <select id="filter-action" class="filter-select" aria-label="Filter by action type">
+            <option value="">All Actions</option>
+            <optgroup label="Authentication">
+              <option value="login_success">Login Success</option>
+              <option value="login_failure">Login Failure</option>
+              <option value="session_revoked">Session Revoked</option>
+              <option value="unauthorized_request">Unauthorized Request</option>
+            </optgroup>
+            <optgroup label="QR Tags">
+              <option value="qr_scan">QR Scan</option>
+              <option value="qr_scan_invalid">Invalid QR Scan</option>
+              <option value="tag_created">Tag Created</option>
+              <option value="tag_deactivated">Tag Deactivated</option>
+            </optgroup>
+            <optgroup label="Students">
+              <option value="student_created">Student Created</option>
+              <option value="student_updated">Student Updated</option>
+              <option value="student_archived">Student Archived</option>
+              <option value="student_restored">Student Restored</option>
+              <option value="student_deleted">Student Deleted</option>
+            </optgroup>
+            <optgroup label="Responders">
+              <option value="responder_created">Responder Created</option>
+              <option value="responder_updated">Responder Updated</option>
+              <option value="responder_restored">Responder Restored</option>
+            </optgroup>
+            <optgroup label="Staff">
+              <option value="staff_created">Staff Created</option>
+              <option value="staff_updated">Staff Updated</option>
+              <option value="staff_archived">Staff Archived</option>
+              <option value="staff_restored">Staff Restored</option>
+              <option value="staff_deleted">Staff Deleted</option>
+            </optgroup>
+          </select>
+          <button id="btn-filter" class="btn btn-primary btn-sm" aria-label="Apply filter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Apply Filter
+          </button>
+          <button id="btn-clear-filter" class="btn btn-ghost btn-sm" style="display:none;" aria-label="Clear filter">
+            Clear
+          </button>
+          <span id="log-count" style="font-size:0.75rem;color:var(--text-muted);margin-left:auto;" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <div id="table-container">
+        <div class="table-wrap">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <p>Loading audit logs&hellip;</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pagination" class="pagination" role="navigation" aria-label="Pagination"></div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/shared/toast.js"></script>
+<script src="../assets/js/shared/confirm.js"></script>
+<script src="../assets/js/shared/sidebar.js"></script>
+<script src="../assets/js/shared/app.js"></script>
+<script src="../assets/js/auth/session.js"></script>
+<script src="../assets/js/audit/audit.js"></script>
+<script>
+  renderSidebar('audit');
+
+  // Show/hide clear button based on filter selection
+  document.getElementById('filter-action').addEventListener('change', function () {
+    document.getElementById('btn-clear-filter').style.display = this.value ? 'inline-flex' : 'none';
+  });
+  document.getElementById('btn-clear-filter').addEventListener('click', function () {
+    document.getElementById('filter-action').value = '';
+    this.style.display = 'none';
+    document.getElementById('btn-filter').click();
+  });
+</script>
+</body>
+</html>
