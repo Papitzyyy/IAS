@@ -18,7 +18,7 @@ from app.core.security import hash_password
 from app.constants.validators import build_full_name
 
 ADMIN = {
-    "email": "neowarsia@gmail.com",
+    "email": "ianbristan2005@gmail.com",
     "first_name": "CRCY",
     "middle_name": "Clinic",
     "last_name": "Admin",
