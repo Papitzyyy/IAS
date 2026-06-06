@@ -7,17 +7,16 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
-  Modal,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { login } from "../src/api/auth";
-import { getToken, SERVER_KEY, saveServer, getServer } from "../src/api/client";
+import { getToken } from "../src/api/client";
 import { Button } from "../src/components/Button";
 import { Input } from "../src/components/Input";
 import { colors, spacing } from "../src/theme";
@@ -28,11 +27,6 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [checking, setChecking] = useState(true);
-
-  // ── Settings Modal State ──
-  const [showSettings, setShowSettings] = useState(false);
-  const [serverAddress, setServerAddress] = useState("");
-  const [currentBackend, setCurrentBackend] = useState("");
 
   useEffect(() => {
     // Check if user is already logged in
@@ -45,25 +39,7 @@ export default function LoginScreen() {
     }).catch(() => {
       setChecking(false);
     });
-
-    // Load current server set in store
-    getServer().then((val: string | null) => {
-      if (val) {
-        setCurrentBackend(val);
-        setServerAddress(val);
-      } else {
-        setCurrentBackend("ias-online.onrender.com");
-      }
-    }).catch(() => {
-      setCurrentBackend("ias-online.onrender.com");
-    });
   }, []);
-
-  async function handleSaveServer() {
-    await saveServer(serverAddress.trim());
-    setCurrentBackend(serverAddress.trim() || "ias-online.onrender.com");
-    setShowSettings(false);
-  }
 
   // Show a loading screen while checking for existing session
   if (checking) {
@@ -103,9 +79,11 @@ export default function LoginScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>CRCY</Text>
-          </View>
+          <Image 
+            source={require("../assets/logo.png")} 
+            style={styles.logo} 
+            resizeMode="contain"
+          />
           <Text style={styles.title}>Scan and Help</Text>
           <Text style={styles.subtitle}>EVSU Ormoc Campus — Responder App</Text>
         </View>
@@ -148,65 +126,10 @@ export default function LoginScreen() {
           />
         </View>
 
-        {/* Server Config Switcher */}
-        <TouchableOpacity 
-          style={styles.settingsRow} 
-          onPress={() => setShowSettings(true)}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.settingsIcon}>⚙️</Text>
-          <Text style={styles.settingsText}>{currentBackend}</Text>
-        </TouchableOpacity>
-
         <Text style={styles.footer}>
           Authorized CRCY Responders only.{"\n"}
           Contact your clinic admin if you need access.
         </Text>
-
-        {/* Settings Modal */}
-        <Modal
-          visible={showSettings}
-          transparent
-          animationType="fade"
-          onRequestClose={() => setShowSettings(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalCard}>
-              <Text style={styles.modalTitle}>Backend Settings</Text>
-              <Text style={styles.modalSub}>
-                Configure the API server address. For Render, enter the full domain.
-              </Text>
-
-              <View style={styles.modalHint}>
-                <Text style={styles.hintTitle}>Examples:</Text>
-                <Text style={styles.hintText}>• ias-fw7q.onrender.com</Text>
-                <Text style={styles.hintText}>• 192.168.1.5:8000 (Local)</Text>
-              </View>
-
-              <Input
-                label="Server Address"
-                value={serverAddress}
-                onChangeText={setServerAddress}
-                placeholder="ias-xxx.onrender.com"
-                autoCapitalize="none"
-              />
-
-              <View style={{ flexDirection: "row", gap: spacing.md, marginTop: spacing.md }}>
-                <TouchableOpacity 
-                  style={{ flex: 1, padding: spacing.md, alignItems: "center" }}
-                  onPress={() => setShowSettings(false)}
-                >
-                  <Text style={{ color: colors.textSecondary, fontWeight: "600" }}>Cancel</Text>
-                </TouchableOpacity>
-                <Button
-                  label="Save"
-                  onPress={handleSaveServer}
-                  style={{ flex: 2 }}
-                />
-              </View>
-            </View>
-          </View>
-        </Modal>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -217,15 +140,64 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: colors.primary,
     padding: spacing.lg,
-    justifyContent: "center",
   },
   header: {
     alignItems: "center",
+    marginTop: spacing.xl * 2,
     marginBottom: spacing.xl,
   },
-  badge: {
-    backgroundColor: colors.primaryLight,
-    paddingHorizontal: spacing.md,
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: spacing.md,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: colors.white,
+    marginBottom: spacing.xs,
+  },
+  subtitle: {
+    fontSize: 13,
+    color: "rgba(255,255,255,0.65)",
+    textAlign: "center",
+  },
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 16,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: colors.textPrimary,
+    marginBottom: spacing.xs,
+  },
+  cardSub: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    marginBottom: spacing.lg,
+  },
+  errorBox: {
+    backgroundColor: "#fef2f2",
+    borderLeftWidth: 4,
+    borderLeftColor: colors.danger,
+    borderRadius: 6,
+    padding: spacing.sm + 2,
+    marginBottom: spacing.md,
+  },
+  errorText: {
+    color: colors.danger,
+    fontSize: 13,
+  },
+  footer: {
+    textAlign: "center",
+    fontSize: 12,
+    color: "rgba(255,255,255,0.45)",
+    lineHeight: 18,
+  },
+});
     paddingVertical: spacing.xs,
     borderRadius: 20,
     marginBottom: spacing.sm,
