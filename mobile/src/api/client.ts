@@ -11,13 +11,36 @@ import * as SecureStore from "expo-secure-store";
 // ── Storage Keys ─────────────────────────────────────────────────────────────
 export const TOKEN_KEY = "access_token";
 export const ROLE_KEY = "user_role";
+export const SERVER_KEY = "backend_server";
 
 // ── Default server address (used when nothing is saved yet) ──────────────────
 const API_BASE = "https://ias-online.onrender.com/api/v1";
 
 /** Build the full API base URL from the stored server IP */
 async function getApiBase(): Promise<string> {
+  try {
+    const savedServer = await SecureStore.getItemAsync(SERVER_KEY);
+    if (savedServer) {
+      const trimmed = savedServer.trim();
+      if (!trimmed) return API_BASE;
+      // If it's a raw IP/domain, add protocol and path
+      if (!trimmed.startsWith("http")) {
+        return `https://${trimmed}/api/v1`;
+      }
+      return trimmed.endsWith("/") ? `${trimmed}api/v1` : `${trimmed}/api/v1`;
+    }
+  } catch {
+    return API_BASE;
+  }
   return API_BASE;
+}
+
+export async function saveServer(server: string): Promise<void> {
+  await SecureStore.setItemAsync(SERVER_KEY, server);
+}
+
+export async function getServer(): Promise<string | null> {
+  return SecureStore.getItemAsync(SERVER_KEY);
 }
 
 // ── Token helpers ────────────────────────────────────────────────────────────

@@ -17,7 +17,7 @@ import {
   View,
 } from "react-native";
 import { login } from "../src/api/auth";
-import { getToken } from "../src/api/client";
+import { getToken, SERVER_KEY, saveServer, getServer } from "../src/api/client";
 import { Button } from "../src/components/Button";
 import { Input } from "../src/components/Input";
 import { colors, spacing } from "../src/theme";
@@ -29,9 +29,14 @@ export default function LoginScreen() {
   const [error, setError] = useState("");
   const [checking, setChecking] = useState(true);
 
+  // ── Settings Modal State ──
+  const [showSettings, setShowSettings] = useState(false);
+  const [serverAddress, setServerAddress] = useState("");
+  const [currentBackend, setCurrentBackend] = useState("");
+
   useEffect(() => {
     // Check if user is already logged in
-    getToken().then((token) => {
+    getToken().then((token: string | null) => {
       if (token) {
         router.replace("/(tabs)/scanner");
       } else {
@@ -40,7 +45,25 @@ export default function LoginScreen() {
     }).catch(() => {
       setChecking(false);
     });
+
+    // Load current server set in store
+    getServer().then((val: string | null) => {
+      if (val) {
+        setCurrentBackend(val);
+        setServerAddress(val);
+      } else {
+        setCurrentBackend("ias-online.onrender.com");
+      }
+    }).catch(() => {
+      setCurrentBackend("ias-online.onrender.com");
+    });
   }, []);
+
+  async function handleSaveServer() {
+    await saveServer(serverAddress.trim());
+    setCurrentBackend(serverAddress.trim() || "ias-online.onrender.com");
+    setShowSettings(false);
+  }
 
   // Show a loading screen while checking for existing session
   if (checking) {
@@ -125,10 +148,65 @@ export default function LoginScreen() {
           />
         </View>
 
+        {/* Server Config Switcher */}
+        <TouchableOpacity 
+          style={styles.settingsRow} 
+          onPress={() => setShowSettings(true)}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.settingsIcon}>⚙️</Text>
+          <Text style={styles.settingsText}>{currentBackend}</Text>
+        </TouchableOpacity>
+
         <Text style={styles.footer}>
           Authorized CRCY Responders only.{"\n"}
           Contact your clinic admin if you need access.
         </Text>
+
+        {/* Settings Modal */}
+        <Modal
+          visible={showSettings}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setShowSettings(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalCard}>
+              <Text style={styles.modalTitle}>Backend Settings</Text>
+              <Text style={styles.modalSub}>
+                Configure the API server address. For Render, enter the full domain.
+              </Text>
+
+              <View style={styles.modalHint}>
+                <Text style={styles.hintTitle}>Examples:</Text>
+                <Text style={styles.hintText}>• ias-fw7q.onrender.com</Text>
+                <Text style={styles.hintText}>• 192.168.1.5:8000 (Local)</Text>
+              </View>
+
+              <Input
+                label="Server Address"
+                value={serverAddress}
+                onChangeText={setServerAddress}
+                placeholder="ias-xxx.onrender.com"
+                autoCapitalize="none"
+              />
+
+              <View style={{ flexDirection: "row", gap: spacing.md, marginTop: spacing.md }}>
+                <TouchableOpacity 
+                  style={{ flex: 1, padding: spacing.md, alignItems: "center" }}
+                  onPress={() => setShowSettings(false)}
+                >
+                  <Text style={{ color: colors.textSecondary, fontWeight: "600" }}>Cancel</Text>
+                </TouchableOpacity>
+                <Button
+                  label="Save"
+                  onPress={handleSaveServer}
+                  style={{ flex: 2 }}
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </KeyboardAvoidingView>
   );
