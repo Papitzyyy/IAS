@@ -48,7 +48,7 @@ def _send(to: str, subject: str, html_body: str) -> None:
     from email.mime.multipart import MIMEMultipart
     
     smtp_host = "smtp-relay.brevo.com"
-    smtp_port = 2525  # Render allows 2525
+    smtp_port = 587  # Brevo default port
     
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
